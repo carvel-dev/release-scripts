@@ -1,0 +1,36 @@
+#@ load("@ytt:data", "data")
+
+#@ def get_shasum(os, arch):
+#@ assets = data.values.assets
+  #@ for i in range(len(assets)):
+    #@ if assets[i].os == os and assets[i].arch == arch:
+      #@ return assets[i].shasum
+    #@ end
+  #@ end
+#@ end
+
+#@yaml/text-templated-strings
+homebrew_formula_template: |
+  class Imgpkg < Formula
+    desc "Imgpkg"
+    homepage "https://carvel.dev/imgpkg/"
+    version "(@= data.values.version @)"
+
+    if OS.mac?
+      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/(@= data.values.version @)/imgpkg-darwin-amd64"
+      sha256 "(@= get_shasum('darwin', 'amd64') @)"
+    elsif OS.linux?
+      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/(@= data.values.version @)/imgpkg-linux-amd64"
+      sha256 "(@= get_shasum('linux', 'amd64') @)"
+    end
+
+    depends_on :arch => :x86_64
+
+    def install
+      bin.install stable.url.split("/")[-1] => "imgpkg"
+    end
+
+    test do
+      system "#{bin}/imgpkg", "version"
+    end
+  end
