@@ -1,0 +1,13 @@
+#@data/values-schema
+---
+
+product: ''
+version: ''
+assets:
+  - os: ''
+    arch: ''
+    shasum: ''
+    filename: ''
+
+github:
+  url: https://github.com/vmware-tanzu/carvel-imgpkg/releases/tag/v0.17.0

@@ -9,28 +9,29 @@
   #@ end
 #@ end
 
+
 #@yaml/text-templated-strings
 homebrew_formula_template: |
-  class Imgpkg < Formula
-    desc "Imgpkg"
-    homepage "https://carvel.dev/imgpkg/"
+  class (@= data.values.product.capitalize() @) < Formula
+    desc "(@= data.values.product.capitalize() @)"
+    homepage "https://carvel.dev/(@= data.values.product @)/"
     version "(@= data.values.version @)"
 
     if OS.mac?
-      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/(@= data.values.version @)/imgpkg-darwin-amd64"
+      url "https://github.com/vmware-tanzu/carvel-(@= data.values.product @)/releases/download/(@= data.values.version @)/(@= data.values.product @)-darwin-amd64"
       sha256 "(@= get_shasum('darwin', 'amd64') @)"
     elsif OS.linux?
-      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/(@= data.values.version @)/imgpkg-linux-amd64"
+      url "https://github.com/vmware-tanzu/carvel-(@= data.values.product @)/releases/download/(@= data.values.version @)/(@= data.values.product @)-linux-amd64"
       sha256 "(@= get_shasum('linux', 'amd64') @)"
     end
 
     depends_on :arch => :x86_64
 
     def install
-      bin.install stable.url.split("/")[-1] => "imgpkg"
+      bin.install stable.url.split("/")[-1] => "(@= data.values.product @)"
     end
 
     test do
-      system "#{bin}/imgpkg", "version"
+      system "#{bin}/(@= data.values.product @)", "version"
     end
   end
