@@ -10,7 +10,16 @@ carvel-release-scripts contains scripting assets related to distributing carvel'
 - ./releases/ contains release metadata for each of the carvel tools. This metadata is used when generating downstream release files. i.e. used to generate a Homebrew formula file.
 
 ## Adding a new product requires adding a github action workflow file:
+1. Add a release directory and add a seed release file containing the latest release information
+   
+for e.g.
+```
+mkdir releases/tool-name-goes-here
+cp releases/imgpkg/0.17.0.yml releases/tool-name-goes-here/v?.?.?.yml
+# Modify the release file to contain correct details for the tool being added
+```
 
+2. Generate github action workflow file
 ```bash
 ./hack/generate-gh-action-workflows.sh tool-name-goes-here
 ```
