@@ -17,15 +17,14 @@ jobs:
       - name: generate homebrew formula
         run: |
           set -e -x
+          curl -L https://carvel.dev/install.sh | bash
 
-          # VERSION TODO: determine the latest release.yml file for imgpkg
-          VERSION=TODO
-          ./scripts/generate_homebrew_formula.sh $VERSION > ./imgpkg.rb
+          ./scripts/generate_homebrew_formula.sh imgpkg > ./imgpkg.rb
 
           cat ./imgpkg.rb
 
       - name: Upload imgpkg Formula
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: homebrew-formula
           path: ./imgpkg.rb
@@ -41,7 +40,7 @@ jobs:
           repository: vmware-tanzu/homebrew-carvel
           ref: develop
       - name: Download updated homebrew formula
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: homebrew-formula
       - name: Update homebrew
