@@ -4,7 +4,12 @@
 
 carvel-release-scripts contains scripting assets related to distributing carvel's binaries to the various distribution channels. i.e. Homebrew, carvel.dev install.sh script etc.
 
-Adding a new product requires adding a github action workflow file:
+- ./hack/ contains scripts/assets for developers maintaining this repo
+- .github/ contains github action workflow files
+- ./scripts/ contains scripts used by the github action in this repo
+- ./releases/ contains release metadata for each of the carvel tools. This metadata is used when generating downstream release files. i.e. used to generate a Homebrew formula file.
+
+## Adding a new product requires adding a github action workflow file:
 
 ```bash
 ./hack/generate-gh-action-workflows.sh tool-name-goes-here
