@@ -2,10 +2,10 @@
 
 set -xeu
 
-# TODO: Add Install instructions act via https://github.com/nektos/act
-
-# SECRETS:
-# CARVEL_RELEASE_SCRIPTS_PAT / Push access to vmware-tanzu/carvel-release-scripts
+if ! type act; then
+  echo 'Install act via https://github.com/nektos/act#installation-through-package-managers'
+  exit 1
+fi
 
 docker run --rm -P --name=local-artifact-server -d --entrypoint=sh mkenney/npm -c "
 git clone https://github.com/DennisDenuto/artifact-server

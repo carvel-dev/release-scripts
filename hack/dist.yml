@@ -5,7 +5,7 @@ name: #@ data.values.product
 "on":
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   imgpkg:
@@ -47,12 +47,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: homebrew-formula
-      - name: Update homebrew
+      - name: View homebrew formula
         #@yaml/text-templated-strings
         run: |
-          cat ./(@= data.values.product @).rb
-          cat homebrew-formula/(@= data.values.product @).rb > ./(@= data.values.product @).rb
-          rm -rf ./homebrew-formula
           cat ./(@= data.values.product @).rb
       - name: Commit & Push changes
         env:
