@@ -19,7 +19,7 @@ jobs:
         ./scripts/generate_homebrew_formula.sh "imgpkg" > ./imgpkg.rb
 
         cat ./imgpkg.rb
-    - name: Upload imgpkg Formula
+    - name: Upload homebrew Formula
       uses: actions/upload-artifact@v2
       with:
         name: homebrew-formula
