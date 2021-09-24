@@ -1,0 +1,26 @@
+#@data/values
+---
+version: v0.19.0
+assets:
+  - os: darwin
+    arch: amd64
+    shasum: a548abe7adfd4dc3f8c86d63a26eb03168fafdb4503b6296f196106db303f71b
+    filename: imgpkg-darwin-amd64
+
+  - os: darwin
+    arch: arm64
+    shasum: d338feb164a0f0fe035457be324d92782367271775030120751e0e515edd69d9
+    filename: imgpkg-darwin-arm64
+
+  - os: linux
+    arch: amd64
+    shasum: 3a0a8b081fe35651dfbadf4c1531fe919a28159c70f92a2de49d42fa98a571ce
+    filename: imgpkg-linux-amd64
+
+  - os: windows
+    arch: amd64
+    shasum: a002fffde4a438287185e14c4afc28b9c35b9cbffa5ca67694f21d416edc8be2
+    filename: imgpkg-windows-amd64
+
+github:
+  url: https://github.com/vmware-tanzu/carvel-imgpkg

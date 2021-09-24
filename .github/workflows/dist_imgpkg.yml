@@ -83,6 +83,6 @@ jobs:
 
         git add -A
 
-        git commit -m "{$MESSAGE}" $_EMPTY || exit 0
+        git commit -m "${MESSAGE}" $_EMPTY || exit 0
 
         git push "${remote_repo}" HEAD:"${BRANCH}" --follow-tags $_FORCE_OPTION;
