@@ -49,7 +49,8 @@ jobs:
         BRANCH: imgpkg-homebrew
         FORCE: true
         GITHUB_TOKEN: ${{ secrets.HOMEBREW_TOKEN }}
-      run: |-
+        GITHUB_DEPLOY_PRIVATE_KEY: ${{ secrets.HOMEBREW_DEPLOY_PRIVATE_KEY }}
+      run: |
         set -e
 
         timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -66,10 +67,10 @@ jobs:
           exit 1;
         };
 
-        [ -z "${GITHUB_TOKEN}" ] && {
-            echo 'Missing input "github_token: ${{ secrets.GITHUB_TOKEN }}".';
+        if [ -z "${GITHUB_TOKEN}" ] && [ -z "${GITHUB_DEPLOY_PRIVATE_KEY}" ]; then
+            echo 'Missing required input "github_token: ${{ secrets.GITHUB_TOKEN }} OR "github_deploy_private_key: ${{ secrets.GITHUB_DEPLOY_PRIVATE_KEY }}".';
             exit 1;
-        };
+        fi
 
         if ${FORCE}; then
             _FORCE_OPTION='--force'
@@ -77,7 +78,17 @@ jobs:
 
         remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
 
-        git config http.sslVerify false
+        if [ -n "${GITHUB_DEPLOY_PRIVATE_KEY}" ]; then
+          remote_repo="git@github.com:${REPOSITORY}"
+
+          tempkey=`basename $0`
+          TMP_DEPLOY_PRIV_KEY=`mktemp /tmp/${tempkey}.XXXXXX` || exit 1
+          echo "${GITHUB_DEPLOY_PRIVATE_KEY}" > $TMP_DEPLOY_PRIV_KEY
+          eval $(ssh-agent -s)
+          ssh-add ${TMP_DEPLOY_PRIV_KEY}
+        fi
+
+        git config http.sslVerify true
         git config --local user.email "${AUTHOR_EMAIL}"
         git config --local user.name "${AUTHOR_NAME}"
 
