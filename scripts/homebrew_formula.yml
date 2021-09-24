@@ -11,6 +11,24 @@
 #@ assert.fail('did not find os/arch')
 #@ end
 
+#@ def has(os, arch):
+#@ assets = data.values.assets
+  #@ for i in range(len(assets)):
+    #@ if assets[i].os == os and assets[i].arch == arch:
+      #@ return True
+    #@ end
+  #@ end
+#@ return False
+#@ end
+
+#@ def download_info(os, arch, product, version, github_url):
+#@ if has(os, arch):
+  #@ sha256 = get_shasum(os, arch)
+  #@ return 'url "https://github.com/vmware-tanzu/carvel-{product}/releases/download/{version}/{product}-{os}-{arch}"\n      sha256 "{sha256}"'.format(product=product, version=version, sha256=sha256, os=os, arch=arch)
+#@ else:
+  #@ return 'odie "{os}/{arch} is not supported. If you would like support please raise an issue upstream to {github_url}"'.format(os=os, arch=arch, github_url=github_url)
+#@ end
+#@ end
 
 #@yaml/text-templated-strings
 homebrew_formula_template: |
@@ -20,14 +38,18 @@ homebrew_formula_template: |
     version "(@= data.values.version @)"
 
     if OS.mac?
-      url "https://github.com/vmware-tanzu/carvel-(@= data.values.product @)/releases/download/(@= data.values.version @)/(@= data.values.product @)-darwin-amd64"
-      sha256 "(@= get_shasum('darwin', 'amd64') @)"
+      if Hardware::CPU.arm?
+        (@= download_info('darwin', 'arm64', data.values.product, data.values.version, data.values.github.url) @)
+      else
+        (@= download_info('darwin', 'amd64', data.values.product, data.values.version, data.values.github.url) @)
+      end
     elsif OS.linux?
-      url "https://github.com/vmware-tanzu/carvel-(@= data.values.product @)/releases/download/(@= data.values.version @)/(@= data.values.product @)-linux-amd64"
-      sha256 "(@= get_shasum('linux', 'amd64') @)"
+      if Hardware::CPU.arm?
+        (@= download_info('linux', 'arm64', data.values.product, data.values.version, data.values.github.url) @)
+      else
+        (@= download_info('linux', 'amd64', data.values.product, data.values.version, data.values.github.url) @)
+      end
     end
-
-    depends_on :arch => :x86_64
 
     def install
       bin.install stable.url.split("/")[-1] => "(@= data.values.product @)"
