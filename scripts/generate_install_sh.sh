@@ -9,7 +9,7 @@ latest_release_file=$(ls ${product_dir} | sort --version-sort --reverse | head -
 
 ytt \
   -f ./scripts/schema.yml \
-  -f ./scripts/homebrew_formula.yml \
+  -f ./scripts/install_sh.yml \
   -f ${product_dir}/${latest_release_file}  \
   -v product=${product} \
   -o json | jq -r .output
