@@ -27,9 +27,9 @@ jobs:
     - name: generate install.sh
       run: |
         set -e -x
-        curl -L https://carvel.dev/install.sh | bash
+        curl -o ./latest_install.sh -L https://carvel.dev/install.sh
 
-        ./scripts/generate_install_sh.sh "imgpkg" > ./install.sh
+        ./scripts/generate_install_sh.sh "imgpkg" ./latest_install.sh > ./install.sh
 
         cat ./install.sh
     - name: Upload install.sh

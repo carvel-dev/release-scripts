@@ -1,0 +1,23 @@
+#@data/values-schema
+---
+product: ''
+version: ''
+assets:
+  - os: ''
+    arch: ''
+    shasum: ''
+    filename: ''
+
+github:
+  url: ''
+
+previous:
+  version: ''
+  assets:
+    - os: ''
+      arch: ''
+      shasum: ''
+      filename: ''
+
+  github:
+    url: ''
