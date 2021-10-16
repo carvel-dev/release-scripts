@@ -12,9 +12,9 @@ previous_release_file=$(ls ${product_dir} | sort --version-sort --reverse | head
 
 ytt \
   -f $path_to_install_sh \
-  -f ./scripts/install_sh_schema.yml \
-  -f ./scripts/install_sh.yml \
+  -f ./scripts/install_sh/install_sh_schema.yml \
+  -f ./scripts/install_sh/install_sh.yml \
   -f ${product_dir}/${latest_release_file}  \
-  --data-values-file <(ytt -f ${product_dir}/$previous_release_file -f ./scripts/previous_release_dv.yml) \
+  --data-values-file <(ytt -f ${product_dir}/$previous_release_file -f ./scripts/install_sh/previous_release_dv.yml) \
   -v product=${product} \
   -o json | jq -r .output
