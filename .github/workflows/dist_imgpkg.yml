@@ -24,19 +24,25 @@ jobs:
       with:
         name: homebrew-formula
         path: ./imgpkg.rb
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        repository: vmware-tanzu/carvel
+        path: carvel
+        ref: develop
     - name: generate install.sh
       run: |
         set -e -x
-        curl -o ./latest_install.sh -L https://carvel.dev/install.sh
 
-        ./scripts/generate_install_sh.sh "imgpkg" ./latest_install.sh > ./install.sh
+        ./scripts/generate_install_sh.sh "imgpkg" ./carvel/site/static/install.sh > ./install.sh
 
         cat ./install.sh
     - name: Upload install.sh
       uses: actions/upload-artifact@v2
       with:
         name: install_sh
-        path: ./site/static/install.sh
+        path: ./install.sh
   homebrew:
     needs: imgpkg
     runs-on: ubuntu-latest
@@ -124,9 +130,10 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: install_sh
+        path: ./site/static/
     - name: View install.sh
       run: |
-        cat ./install.sh
+        cat ./site/static/install.sh
     - name: Commit & Push changes
       env:
         AUTHOR_NAME: k8slt
