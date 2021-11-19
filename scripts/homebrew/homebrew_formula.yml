@@ -31,7 +31,7 @@
 #@ end
 
 #@yaml/text-templated-strings
-homebrew_formula_template: |
+output: |
   class (@= data.values.product.capitalize() @) < Formula
     desc "(@= data.values.product.capitalize() @)"
     homepage "https://carvel.dev/(@= data.values.product @)/"

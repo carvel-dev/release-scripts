@@ -1,0 +1,20 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:assert", "assert")
+
+#@ def get_shasum(assets, os, arch):
+  #@ for i in range(len(assets)):
+    #@ if assets[i].os == os and assets[i].arch == arch:
+      #@ return assets[i].shasum
+    #@ end
+  #@ end
+#@ assert.fail('did not find os/arch')
+#@ end
+
+#@ def update(install_sh):
+  #@ install_sh = install_sh.replace(data.values.product + "_version=" + data.values.previous.version, data.values.product + "_version=" + data.values.version)
+  #@ install_sh = install_sh.replace(data.values.product + "_checksum=" + get_shasum(data.values.previous.assets, "linux", "amd64"), data.values.product + "_checksum=" + get_shasum(data.values.assets, "linux", "amd64"))
+  #@ install_sh = install_sh.replace(data.values.product + "_checksum=" + get_shasum(data.values.previous.assets, "darwin", "amd64"), data.values.product + "_checksum=" + get_shasum(data.values.assets, "darwin", "amd64"))
+  #@ return install_sh
+#@ end
+
+output: #@ update(data.read('install.sh'))
