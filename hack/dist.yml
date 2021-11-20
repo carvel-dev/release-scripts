@@ -67,7 +67,6 @@ jobs:
         with:
           name: homebrew-formula
       - name: View homebrew formula
-        #@yaml/text-templated-strings
         run: |
           cat ./(@= data.values.product @).rb
       - name: Commit & Push changes
@@ -75,9 +74,8 @@ jobs:
           AUTHOR_NAME: "k8slt"
           AUTHOR_EMAIL: "klt@groups.vmware.com"
           REPOSITORY: "vmware-tanzu/homebrew-carvel"
-          #@yaml/text-templated-strings
-          BRANCH: "(@= data.values.product @)-homebrew"
-          FORCE: true
+          BRANCH: "develop"
+          FORCE: false
           GITHUB_TOKEN: ${{ secrets.HOMEBREW_TOKEN }}
           GITHUB_DEPLOY_PRIVATE_KEY: ${{ secrets.HOMEBREW_DEPLOY_PRIVATE_KEY }}
         run: |
@@ -144,7 +142,6 @@ jobs:
           name: install_sh
           path: ./site/static/
       - name: View install.sh
-        #@yaml/text-templated-strings
         run: |
           cat ./site/static/install.sh
       - name: Commit & Push changes
@@ -152,9 +149,8 @@ jobs:
           AUTHOR_NAME: "k8slt"
           AUTHOR_EMAIL: "klt@groups.vmware.com"
           REPOSITORY: "vmware-tanzu/carvel"
-          #@yaml/text-templated-strings
-          BRANCH: "(@= data.values.product @)-install-sh"
-          FORCE: true
+          BRANCH: "develop"
+          FORCE: false
           GITHUB_TOKEN: ${{ secrets.INSTALL_SH_TOKEN }}
           GITHUB_DEPLOY_PRIVATE_KEY: ${{ secrets.INSTALL_SH_DEPLOY_PRIVATE_KEY }}
         run: |
