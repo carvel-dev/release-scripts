@@ -65,8 +65,8 @@ jobs:
         AUTHOR_NAME: k8slt
         AUTHOR_EMAIL: klt@groups.vmware.com
         REPOSITORY: vmware-tanzu/homebrew-carvel
-        BRANCH: imgpkg-homebrew
-        FORCE: true
+        BRANCH: develop
+        FORCE: false
         GITHUB_TOKEN: ${{ secrets.HOMEBREW_TOKEN }}
         GITHUB_DEPLOY_PRIVATE_KEY: ${{ secrets.HOMEBREW_DEPLOY_PRIVATE_KEY }}
       run: |
@@ -139,8 +139,8 @@ jobs:
         AUTHOR_NAME: k8slt
         AUTHOR_EMAIL: klt@groups.vmware.com
         REPOSITORY: vmware-tanzu/carvel
-        BRANCH: imgpkg-install-sh
-        FORCE: true
+        BRANCH: develop
+        FORCE: false
         GITHUB_TOKEN: ${{ secrets.INSTALL_SH_TOKEN }}
         GITHUB_DEPLOY_PRIVATE_KEY: ${{ secrets.INSTALL_SH_DEPLOY_PRIVATE_KEY }}
       run: |
