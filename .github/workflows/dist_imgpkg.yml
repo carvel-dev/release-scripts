@@ -3,6 +3,8 @@ name: imgpkg
   push:
     branches:
     - main
+    paths:
+    - releases/imgpkg/*
 jobs:
   imgpkg:
     runs-on: ubuntu-latest

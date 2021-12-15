@@ -3,6 +3,8 @@ name: kbld
   push:
     branches:
     - main
+    paths:
+    - releases/kbld/*
 jobs:
   kbld:
     runs-on: ubuntu-latest

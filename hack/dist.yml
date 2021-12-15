@@ -7,6 +7,8 @@ name: #@ data.values.product
   push:
     branches:
       - main
+    paths:
+      - #@ "releases/" + data.values.product + "/*"
 
 #@yaml/text-templated-strings
 jobs:
