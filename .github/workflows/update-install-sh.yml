@@ -1,0 +1,37 @@
+name: published_release
+
+on:
+  push:
+    paths:
+      - releases.yaml
+jobs:
+  generate-new-install-sh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install ytt
+        uses: vmware-tanzu/carvel-setup-action@v1
+        with:
+          only: ytt
+      - run: |
+          set -e -x
+          ./scripts/generate_install_sh.sh > install.sh
+          chmod u+x install.sh
+      - name: Upload install.sh
+        uses: actions/upload-artifact@v2
+        with:
+          name: new-install-sh
+          path: install.sh
+  update-install-sh:
+    needs: generate-new-install-sh
+    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
+    secrets:
+      githubToken: ${{ secrets.ACCESS_TOKEN }}
+    with:
+      repository: vmware-tanzu/carvel
+      branch: develop
+      artifactName: new-install-sh
+      artifactPath: ./site/static/

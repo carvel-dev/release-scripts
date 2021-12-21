@@ -1,0 +1,11 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:data", "data")
+#@overlay/match by=overlay.all, expects="1+"
+---
+products:
+  #@overlay/match by="product", expects="1+"
+  #@overlay/replace
+  - product: #@ data.values.product
+    version: #@ data.values.version
+    github: #@ data.values.github
+    assets: #@ data.values.assets

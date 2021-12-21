@@ -4,31 +4,35 @@
 
 carvel-release-scripts contains scripting assets related to distributing carvel's binaries to the various distribution channels. i.e. Homebrew, carvel.dev install.sh script etc.
 
-- ./hack/ contains scripts/assets for developers maintaining this repo
 - .github/ contains github action workflow files
 - ./scripts/ contains scripts used by the github action in this repo
-- ./releases/ contains release metadata for each of the carvel tools. This metadata is used when generating downstream release files. i.e. used to generate a Homebrew formula file.
+- releases.yaml contains all the tools shasums for the latest version (used on the generation of the install.sh)
 
-## Adding a new product requires adding a github action workflow file:
-1. Add a release directory and add a seed release file containing the latest release information
+## How can a tool start using this release process:
+1. The following step need to be added to the current release-published.yml of the tools repository
    
 for e.g.
 ```
-mkdir releases/tool-name-goes-here
-cp releases/imgpkg/0.17.0.yml releases/tool-name-goes-here/v?.?.?.yml
-# Modify the release file to contain correct details for the tool being added
+- run: |
+  curl -X POST https://api.github.com/repos/vmware-tanzu/carvel-release-scripts/dispatches \
+  -H 'Accept: application/vnd.github.everest-preview+json' \
+  -u ${{ secrets.ACCESS_TOKEN }} \
+  --data '{"event_type": "<YourToolName>_released", "client_payload": { "tagName": "${{ github.event.release.tag_name }}", "repo": "${{ github.repository }}", "toolName": "<YourToolName>" }}'
 ```
+Need to change in the above:
+  - `ACCESS_TOKEN` this secret needs to be one the format username@accessToken and the user needs to have access to execute workflows in this repository
+  - `<YourToolName>` should be replace with the tool name
 
-2. Generate github action workflow file
-```bash
-./hack/generate-gh-action-workflows.sh tool-name-goes-here
+## How can a new carvel tool start using this release process:
+1. Enable in the tool the published workflow and add the [step in this question](#how-can-a-tool-start-using-this-release-process)
+2. Edit `releases.yaml` and add the following entry to it:
+
+```yaml
+- product: YourProductName
 ```
+3. Release the new tool on the tools Github Repository and the automation will start running
 
-for e.g.
-
-```bash
-./hack/generate-gh-action-workflows.sh imgpkg
-```
+**Note:** This automated release process will make the tool installable via installation script from the website
 
 ## Start using the trivy scanning for CLI tools
 
