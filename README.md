@@ -30,6 +30,30 @@ for e.g.
 ./hack/generate-gh-action-workflows.sh imgpkg
 ```
 
+## Start using the trivy scanning for CLI tools
+
+### Pre-requirements
+- The repository has a `./hack/build.sh` script that will build the binaries
+
+### Steps
+1. Create a secret named `SLACK_WEBHOOK_URL` that points to a slack webhook or slack workflow.
+2. Create a new workflow that looks like this:
+```yaml
+name: Trivy CVE Dependency Scanner
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  trivy-scan:
+    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/trivy-scan.yml@main
+    with:
+      repo: vmware-tanzu/carvel-imgpkg
+      tool: imgpkg
+      goVersion: 1.17.0 # This field is optional and will default to 1.17.0
+```
+
 ## Contributing
 
 The carvel-release-scripts project team welcomes contributions from the community. 
