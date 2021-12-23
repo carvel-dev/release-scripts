@@ -16,6 +16,10 @@ on:
         type: string
         description: Version of Go used to compile the application
         default: 1.17.0
+    secrets:
+      slackWebhookURL:
+        required: true
+        description: Webhook URL where the slack message is sent to
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -82,7 +86,7 @@ jobs:
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ env.SUMMARY }}\"}"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
 
       - name: Send Slack Notification if Scan Failed
         if: failure()
@@ -90,4 +94,4 @@ jobs:
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Failed\", \"summary\": \"Please review the scan information in Github\"}"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
