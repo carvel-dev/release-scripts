@@ -12,8 +12,8 @@ jobs:
       repo: vmware-tanzu/imgpkg
       tool: imgpkg
       branch: develop
-      sendSlackNotification: false
-      uploadSecurityReport: false
+      sendSlackNotification: 'false'
+      uploadSecurityReport: 'false'
     secrets:
       githubToken: ${{ secrets.GITHUB_TOKEN }}
       slackWebhookURL: empty
