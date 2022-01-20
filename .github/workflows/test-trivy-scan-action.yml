@@ -9,10 +9,11 @@ jobs:
   test-job:
     uses: vmware-tanzu/carvel-release-scripts/.github/workflows/trivy-scan.yml@main
     with:
-      repo: vmware-tanzu/carvel-release-scripts
-      tool: helloWorld
-      sendSlackNotification: false
+      repo: vmware-tanzu/imgpkg
+      tool: imgpkg
       branch: main
+      sendSlackNotification: false
+      uploadSecurityReport: false
     secrets:
       githubToken: ${{ secrets.GITHUB_TOKEN }}
       slackWebhookURL: empty
