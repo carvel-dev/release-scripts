@@ -12,6 +12,7 @@ jobs:
       repo: vmware-tanzu/carvel-release-scripts
       tool: helloWorld
       sendSlackNotification: false
+      branch: main
     secrets:
       githubToken: ${{ secrets.GITHUB_TOKEN }}
       slackWebhookURL: empty

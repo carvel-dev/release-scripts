@@ -7,6 +7,11 @@ on:
         required: true
         type: string
         description: Github Organization and Repository of the tool to be scanned
+      branch:
+        required: false
+        type: string
+        default: develop
+        description: Branch name to retrieve the code from
       tool:
         required: true
         type: string
@@ -41,7 +46,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           repository: ${{ inputs.repo }}
-          ref: develop
+          ref: ${{ inputs.branch }}
 
       - name: Set up Go
         uses: actions/setup-go@v2
