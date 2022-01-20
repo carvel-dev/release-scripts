@@ -13,5 +13,5 @@ jobs:
       tool: helloWorld
       sendSlackNotification: false
     secrets:
-      githubToken: ${{  }}
+      githubToken: ${{ secrets.GITHUB_TOKEN }}
       slackWebhookURL: empty
