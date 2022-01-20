@@ -16,13 +16,18 @@ on:
         type: string
         description: Version of Go used to compile the application
         default: 1.17.0
+      sendSlackNotification:
+        default: true
+        type: boolean
+        required: false
+        description: Flag that activates the slack notification
     secrets:
       slackWebhookURL:
         required: true
         description: Webhook URL where the slack message is sent to
       githubToken:
         required: true
-        descrpition: Github token used to retrieve trivy CVE database
+        description: Github token used to retrieve trivy CVE database
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -86,7 +91,7 @@ jobs:
           echo "SUMMARY=$summary" >> $GITHUB_ENV
 
       - name: Send Slack Notification if Scan Ran Successfully
-        if: success()
+        if: ${{ inputs.sendSlackNotification }} && success()
         uses: slackapi/slack-github-action@v1.16.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ env.SUMMARY }}\"}"
@@ -94,7 +99,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
 
       - name: Send Slack Notification if Scan Failed
-        if: failure()
+        if: ${{ inputs.sendSlackNotification }} && failure()
         uses: slackapi/slack-github-action@v1.16.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Failed\", \"summary\": \"Please review the scan information in Github\"}"

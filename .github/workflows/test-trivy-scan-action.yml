@@ -1,0 +1,17 @@
+name: test
+
+"on":
+  push:
+    branches:
+      - main
+
+jobs:
+  test-job:
+    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/trivy-scan.yml@trivy-workflow
+    with:
+      repo: vmware-tanzu/carvel-release-scripts
+      tool: helloWorld
+      sendSlackNotification: false
+    secrets:
+      githubToken: ${{  }}
+      slackWebhookURL: empty
