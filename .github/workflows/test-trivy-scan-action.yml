@@ -11,7 +11,7 @@ jobs:
     with:
       repo: vmware-tanzu/imgpkg
       tool: imgpkg
-      branch: main
+      branch: develop
       sendSlackNotification: false
       uploadSecurityReport: false
     secrets:
