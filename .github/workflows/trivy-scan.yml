@@ -21,16 +21,6 @@ on:
         type: string
         description: Version of Go used to compile the application
         default: 1.17.0
-      sendSlackNotification:
-        default: 'true'
-        type: string
-        required: false
-        description: Flag that activates the slack notification
-      uploadSecurityReport:
-        default: 'true'
-        type: string
-        required: false
-        description: Activates upload of the security report to Github Repository
     secrets:
       slackWebhookURL:
         required: true
@@ -84,7 +74,6 @@ jobs:
           trivy rootfs --ignore-unfixed --format json --output results.json ${{ inputs.tool }}
 
       - name: Upload Trivy scan results to GitHub Security tab
-        if: ${{ inputs.uploadSecurityReport == 'true' }}
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: 'trivy-results.sarif'
@@ -102,7 +91,7 @@ jobs:
           echo "SUMMARY=$summary" >> $GITHUB_ENV
 
       - name: Send Slack Notification if Scan Ran Successfully
-        if: ${{ inputs.sendSlackNotification == 'true' }} && success()
+        if: success()
         uses: slackapi/slack-github-action@v1.16.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ env.SUMMARY }}\"}"
@@ -110,7 +99,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
 
       - name: Send Slack Notification if Scan Failed
-        if: ${{ inputs.sendSlackNotification == 'true' }} && failure()
+        if: failure()
         uses: slackapi/slack-github-action@v1.16.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Failed\", \"summary\": \"Please review the scan information in Github\"}"
