@@ -51,7 +51,10 @@ jobs:
     with:
       repo: vmware-tanzu/carvel-imgpkg
       tool: imgpkg
-      goVersion: 1.17.0 # This field is optional and will default to 1.17.0
+      goVersion: 1.17.0
+    secrets:
+      githubToken: ${{ secrets.GITHUB_TOKEN }}
+      slackWebhookURL: ${{ secrets.SLACK_WEBHOOK_URL }}
 ```
 
 ## Contributing
