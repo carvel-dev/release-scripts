@@ -62,6 +62,16 @@ jobs:
           # Create trivy binary file
           git clone --depth 1 -b "v0.22.0" https://github.com/aquasecurity/trivy
 
+      - name: Read dismissed CVEs from Github
+        env:
+          GITHUB_TOKEN: ${{ secrets.githubToken }}
+        run: |
+          set -o pipefail
+          curl --request POST \
+            --url https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
+            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' > cves.txt
+          cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed") | .rule.id' > .trivyignore
+
       - name: Run trivy to generate reports
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
