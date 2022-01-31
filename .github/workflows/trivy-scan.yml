@@ -73,8 +73,7 @@ jobs:
 
           curl https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
             --header 'authorization: Bearer ${{ secrets.githubToken }}' > cves.txt
-          cat cves.txt
-          cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed") | .rule.id' > .trivyignore
+          cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed" or .state == "fixed") | .rule.id' > .trivyignore
 
       - name: Run trivy to generate reports
         env:
