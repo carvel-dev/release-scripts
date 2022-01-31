@@ -94,6 +94,7 @@ jobs:
         run: |
           # We should fail the github action even if there is an issue with `jq` parsing. Hence set -o pipefail
           set -o pipefail
+          cat results.json
           summary=$(jq '.Results[] | select(.Vulnerabilities) | .Vulnerabilities | group_by(.Severity) | map({Severity: .[0].Severity, Count: length}) | tostring' results.json | tr -d \\ | tr -d '"')
 
           if [ -z $summary ]
