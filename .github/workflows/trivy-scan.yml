@@ -63,8 +63,6 @@ jobs:
           git clone --depth 1 -b "v0.22.0" https://github.com/aquasecurity/trivy
 
       - name: Read dismissed CVEs from Github
-        env:
-          GITHUB_TOKEN: ${{ secrets.githubToken }}
         run: |
           set -o pipefail
           trap 'on_error' ERR
@@ -73,8 +71,7 @@ jobs:
             cat cves.txt
           }
 
-          curl --request POST \
-            --url https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
+          curl https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
             --header 'authorization: Bearer ${{ secrets.githubToken }}' > cves.txt
           cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed") | .rule.id' > .trivyignore
 
