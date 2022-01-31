@@ -1,0 +1,25 @@
+#@data/values
+---
+version: v0.38.0
+assets:
+  - os: darwin
+    arch: amd64
+    shasum: 1f84e26457a5efd2470df408072bf2f182c939414e4958f82e19e122d2ee120c
+    filename: ytt-darwin-amd64
+
+  - os: darwin
+    arch: arm64
+    shasum: 029678ab1c95d42ec559dcde854fcd3f89669cf2af83ca3d24603d45e4036202
+    filename: ytt-darwin-arm64
+
+
+  - os: linux
+    arch: amd64
+    shasum: 2ca800c561464e0b252e5ee5cacff6aa53831e65e2fb9a09cf388d764013c40d
+    filename: ytt-linux-amd64
+
+   - os: linux
+    arch: arm64
+    shasum: c4939a3de0518b802a2c75bf61e837d2c2137289261433eaa101760cee793d04
+    filename: ytt-linux-arm64
+
