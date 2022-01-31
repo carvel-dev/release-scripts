@@ -67,9 +67,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
         run: |
           set -o pipefail
+          trap 'on_error' ERR
+          on_error() {
+            echo "the curl reply was:"
+            cat cves.txt
+          }
+
           curl --request POST \
             --url https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
-            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' > cves.txt
+            --header 'authorization: Bearer ${{ secrets.githubToken }}' > cves.txt
           cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed") | .rule.id' > .trivyignore
 
       - name: Run trivy to generate reports
