@@ -59,9 +59,6 @@ jobs:
           # Download trivy binary.
           brew install aquasecurity/trivy/trivy
 
-          # Create trivy binary file
-          git clone --depth 1 -b "v0.22.0" https://github.com/aquasecurity/trivy
-
       - name: Read dismissed CVEs from Github
         run: |
           set -o pipefail
@@ -83,7 +80,7 @@ jobs:
           set -o pipefail
           cat .trivyignore
           # Generate trivy report in sarif format
-          trivy rootfs --ignore-unfixed --format template --template  "@trivy/contrib/sarif.tpl" --output trivy-results.sarif ${{ inputs.tool }}
+          trivy rootfs --ignore-unfixed --format sarif --output trivy-results.sarif ${{ inputs.tool }}
 
           # Generate trivy report in json format
           trivy rootfs --ignore-unfixed --format json --output results.json ${{ inputs.tool }}
