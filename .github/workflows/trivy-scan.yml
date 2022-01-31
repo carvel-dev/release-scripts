@@ -74,12 +74,14 @@ jobs:
           curl https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
             --header 'authorization: Bearer ${{ secrets.githubToken }}' > cves.txt
           cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed" or .state == "fixed") | .rule.id' > .trivyignore
+          cat cves.txt
 
       - name: Run trivy to generate reports
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
         run: |
           set -o pipefail
+          cat .trivyignore
           # Generate trivy report in sarif format
           trivy rootfs --ignore-unfixed --format template --template  "@trivy/contrib/sarif.tpl" --output trivy-results.sarif ${{ inputs.tool }}
 
