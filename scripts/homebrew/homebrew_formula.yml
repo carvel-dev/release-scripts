@@ -64,6 +64,7 @@ output: |
 
       fish_output = Utils.safe_popen_read(bin/"(@= data.values.product @)", "completion", "fish")
       (fish_completion/"(@= data.values.product @).fish").write fish_output
+      (@ end @)
     end
 
     test do
