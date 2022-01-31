@@ -70,15 +70,13 @@ jobs:
 
           curl https://api.github.com/repos/${{ inputs.repo }}/code-scanning/alerts \
             --header 'authorization: Bearer ${{ secrets.githubToken }}' > cves.txt
-          cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed" or .state == "fixed") | .rule.id' > .trivyignore
-          cat cves.txt
+          cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed" or .state == "fixed") | .rule.id' | tr -d '" > .trivyignore
 
       - name: Run trivy to generate reports
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
         run: |
           set -o pipefail
-          cat .trivyignore
           # Generate trivy report in sarif format
           trivy rootfs --ignore-unfixed --format sarif --output trivy-results.sarif ${{ inputs.tool }}
 
@@ -94,7 +92,6 @@ jobs:
         run: |
           # We should fail the github action even if there is an issue with `jq` parsing. Hence set -o pipefail
           set -o pipefail
-          cat results.json
           summary=$(jq '.Results[] | select(.Vulnerabilities) | .Vulnerabilities | group_by(.Severity) | map({Severity: .[0].Severity, Count: length}) | tostring' results.json | tr -d \\ | tr -d '"')
 
           if [ -z $summary ]
