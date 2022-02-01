@@ -1,3 +1,0 @@
-#@ load("@ytt:data", "data")
-
-previous: #@ data.values

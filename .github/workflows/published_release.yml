@@ -1,0 +1,180 @@
+name: published_release
+
+on:
+  repository_dispatch:
+    types:
+      - imgpkg_released
+      - kapp_released
+      - kbld_released
+      - vendir_released
+      - ytt_released
+
+jobs:
+  process-release-information:
+    runs-on: ubuntu-latest
+    outputs:
+      yttValuesFile: ${{ steps.get-checksums-from-release.outputs.result }}
+    steps:
+      - uses: actions/github-script@v5
+        id: get-checksums-from-release
+        if: startsWith(github.ref, 'refs/tags/') && ${{ !env.ACT }}
+        with:
+          result-encoding: string
+          script: |
+            var crypto = require('crypto');
+
+            const owner = context.payload.client_payload.repo.split("/")[0]
+            const repo = context.payload.client_payload.repo.split("/")[1]
+            
+            // https://docs.github.com/en/rest/reference/repos#list-releases
+            // https://octokit.github.io/rest.js/v18#repos-list-releases
+            var releases = await github.rest.repos.listReleases({
+              owner: owner,
+              repo: repo
+            });
+            
+            var crypto = require('crypto')
+            var fs = require('fs')
+            const url = require('url');
+            const https = require('https');
+            
+            checksums = {}
+            for (const r of releases["data"]) {
+              console.log(`${r.tag_name} == ${ context.payload.client_payload.tagName }`)
+              if (!r.draft && r.tag_name == context.payload.client_payload.tagName) {
+                for (const asset of r.assets) {
+                  var release_asset = await github.rest.repos.getReleaseAsset({ headers: {accept: `application/octet-stream`}, accept: `application/octet-stream`, owner: owner, repo: repo, asset_id: asset.id });
+                  const hash = crypto.createHash('sha256');
+            
+                  let http_promise = new Promise((resolve, reject) => {
+                    https.get(release_asset.url, (stream) => {
+                      stream.on('data', function (data) {
+                        hash.update(data);
+                      });
+                      stream.on('end', function () {
+                        checksums[asset.name]= hash.digest('hex');
+                        resolve(`${asset.name}`);
+                      });
+                    });
+                  });
+                  await http_promise;
+                }
+                break
+              }
+            }
+            console.log(checksums)
+            
+            githubURL = `github.com/${context.payload.client_payload.repo}`
+            result = `
+            #@data/values
+            ---
+            product: ${context.payload.client_payload.toolName}
+            version: ${context.payload.client_payload.tagName}
+            github:
+              url: ${githubURL}
+            assets:
+            `
+            
+            for (const [key, value] of Object.entries(checksums)) {
+              if (key.indexOf(context.payload.client_payload.toolName) != -1) {
+              keyParts = key.split('.')[0].split("-")
+              result += `
+              - os: ${keyParts[1]}
+                arch: ${keyParts[2]}
+                shasum: ${value}
+                filename: ${key}
+              `
+              }
+            }
+            
+            console.log(result)
+            
+            return result
+      - name: Create release file
+        run: |
+          cat <<EOF >release.yml
+          ${{ steps.get-checksums-from-release.outputs.result }}
+          EOF
+      - name: Upload Release information file
+        uses: actions/upload-artifact@v2
+        with:
+          name: ytt-data-values-for-release
+          path: ./release.yml
+  prepare-homebrew-file:
+    runs-on: ubuntu-latest
+    needs: process-release-information
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Download ytt data values file with release information
+        uses: actions/download-artifact@v2
+        with:
+          name: ytt-data-values-for-release
+          path: ./tmp/release.yml
+      - name: Install ytt
+        uses: vmware-tanzu/carvel-setup-action@v1
+        with:
+          only: ytt
+      - name: Generate Homebrew File
+        run: |
+          set -e -x
+          filename="./${{ github.event.client_payload.toolName }}.rb"
+          
+          ./scripts/generate_homebrew_formula.sh ./tmp/release.yml > $filename
+  
+          cat $filename
+      - name: Upload Homebrew File
+        uses: actions/upload-artifact@v2
+        with:
+          name: homebrew-formula
+          path: ./${{ github.event.client_payload.toolName }}.rb
+  release-on-homebrew:
+    needs: prepare-homebrew-file
+    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
+    secrets:
+      githubDeployPrivateKey: ${{ secrets.HOMEBREW_DEPLOY_PRIVATE_KEY }}
+    with:
+      repository: vmware-tanzu/homebrew-carvel
+      branch: develop
+      artifactName: homebrew-formula
+      artifactPath: .
+
+
+  prepare-releases-file-for-install-sh:
+    runs-on: ubuntu-latest
+    needs: process-release-information
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Download ytt data values file with release information
+        uses: actions/download-artifact@v2
+        with:
+          name: ytt-data-values-for-release
+          path: ./tmp/release.yml
+      - name: Install ytt
+        uses: vmware-tanzu/carvel-setup-action@v1
+        with:
+          only: ytt
+      - name: Generate new releases.yaml
+        run: |
+          set -e -x
+          ./scripts/generate_releases_yaml.sh > releases.yaml
+      - name: Upload releases.yaml File
+        uses: actions/upload-artifact@v2
+        with:
+          name: releases-yaml
+          path: releases.yaml
+  update-releases-yaml:
+    needs: prepare-releases-file-for-install-sh
+    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
+    secrets:
+      githubDeployPrivateKey: ${{ secrets.CARVEL_RELEASE_SCRIPTS_DEPLOY_PRIVATE_KEY }}
+    with:
+      repository: vmware-tanzu/carvel-release-scripts
+      branch: main
+      artifactName: releases-yaml
+      artifactPath: .
