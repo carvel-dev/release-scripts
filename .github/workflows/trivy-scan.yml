@@ -96,12 +96,12 @@ jobs:
 
           if [ -z $summary ]
           then
-            summary="0 Issues"
+            summary="No Issues Found"
           fi
           echo "SUMMARY=$summary" >> $GITHUB_ENV
 
       - name: Send Slack Notification if Scan Ran Successfully
-        if: success()
+        if: success() && !contains(${{ env.SUMMARY }}, "No Issues Found")
         uses: slackapi/slack-github-action@v1.16.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ env.SUMMARY }}\"}"
