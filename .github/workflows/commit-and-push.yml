@@ -32,10 +32,6 @@ on:
         required: false
       githubDeployPrivateKey:
         required: false
-    outputs:
-      yttReleaseValues:
-        description: "ytt values file content"
-        value: ${{ jobs.get_assets_sha.outputs.result }}
 
 jobs:
   commit-and-push:

@@ -1,6 +1,13 @@
 name: published_release
 
-on: [repository_dispatch]
+on:
+  repository_dispatch:
+    types:
+      - imgpkg_released
+      - kapp_released
+      - kbld_released
+      - vendir_released
+      - ytt_released
 
 jobs:
   process-release-information:
@@ -166,7 +173,7 @@ jobs:
     needs: prepare-releases-file-for-install-sh
     uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
     secrets:
-      githubToken: ${{ secrets.ACCESS_TOKEN }} # joaopapereira missing token
+      githubDeployPrivateKey: ${{ secrets.CARVEL_RELEASE_SCRIPTS_DEPLOY_PRIVATE_KEY }}
     with:
       repository: vmware-tanzu/carvel-release-scripts
       branch: main
