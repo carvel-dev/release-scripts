@@ -134,7 +134,6 @@ jobs:
     needs: prepare-homebrew-file
     uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
     secrets:
-      githubToken: ${{ secrets.HOMEBREW_TOKEN }}
       githubDeployPrivateKey: ${{ secrets.HOMEBREW_DEPLOY_PRIVATE_KEY }}
     with:
       repository: vmware-tanzu/homebrew-carvel
