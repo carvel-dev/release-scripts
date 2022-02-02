@@ -162,7 +162,8 @@ jobs:
       - name: Generate new releases.yaml
         run: |
           set -e -x
-          ./scripts/generate_releases_yaml.sh ./tmp/release.yml > releases.yaml
+          ./scripts/generate_releases_yaml.sh ./tmp/release.yml > ./tmp/releases.yaml
+          mv ./tmp/releases.yaml ./releases.yaml
       - name: Upload releases.yaml File
         uses: actions/upload-artifact@v2
         with:
