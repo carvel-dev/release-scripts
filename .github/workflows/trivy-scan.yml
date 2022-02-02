@@ -89,22 +89,25 @@ jobs:
           sarif_file: 'trivy-results.sarif'
 
       - name: Create Issues Summary
+        id: cve-summary
         run: |
           # We should fail the github action even if there is an issue with `jq` parsing. Hence set -o pipefail
           set -o pipefail
           summary=$(jq '.Results[] | select(.Vulnerabilities) | .Vulnerabilities | group_by(.Severity) | map({Severity: .[0].Severity, Count: length}) | tostring' results.json | tr -d \\ | tr -d '"')
 
-          if [ -z $summary ]
+          if [ -n $summary ]
           then
-            summary="No Issues Found"
+            echo "Summary: $summary"
+            echo "::set-output name=summary::$summary"
+          else
+            echo "No new Issues where found"
           fi
-          echo "SUMMARY=$summary" >> $GITHUB_ENV
 
       - name: Send Slack Notification if Scan Ran Successfully
-        if: success() && !contains(${{ env.SUMMARY }}, "No Issues Found")
+        if: steps.cve-summary.outputs.summary != ''
         uses: slackapi/slack-github-action@v1.16.0
         with:
-          payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ env.SUMMARY }}\"}"
+          payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ steps.cve-summary.outputs.summary }}\"}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
 
