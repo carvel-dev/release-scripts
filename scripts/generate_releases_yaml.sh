@@ -2,7 +2,7 @@
 
 set -xeu
 
-
-ytt -f ./tmp/release.yml -f releases.yaml -f scripts/releases/overlay.yaml > ./tmp/releases.yml
+releaseFile=$1
+ytt -f $releaseFile -f releases.yaml -f scripts/releases/overlay.yaml > ./tmp/releases.yml
 
 cat ./tmp/releases.yml

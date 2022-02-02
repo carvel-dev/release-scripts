@@ -25,19 +25,19 @@ jobs:
 
             const owner = context.payload.client_payload.repo.split("/")[0]
             const repo = context.payload.client_payload.repo.split("/")[1]
-            
+
             // https://docs.github.com/en/rest/reference/repos#list-releases
             // https://octokit.github.io/rest.js/v18#repos-list-releases
             var releases = await github.rest.repos.listReleases({
               owner: owner,
               repo: repo
             });
-            
+
             var crypto = require('crypto')
             var fs = require('fs')
             const url = require('url');
             const https = require('https');
-            
+
             checksums = {}
             for (const r of releases["data"]) {
               console.log(`${r.tag_name} == ${ context.payload.client_payload.tagName }`)
@@ -45,7 +45,7 @@ jobs:
                 for (const asset of r.assets) {
                   var release_asset = await github.rest.repos.getReleaseAsset({ headers: {accept: `application/octet-stream`}, accept: `application/octet-stream`, owner: owner, repo: repo, asset_id: asset.id });
                   const hash = crypto.createHash('sha256');
-            
+
                   let http_promise = new Promise((resolve, reject) => {
                     https.get(release_asset.url, (stream) => {
                       stream.on('data', function (data) {
@@ -63,7 +63,7 @@ jobs:
               }
             }
             console.log(checksums)
-            
+
             githubURL = `github.com/${context.payload.client_payload.repo}`
             result = `
             #@data/values
@@ -74,7 +74,7 @@ jobs:
               url: ${githubURL}
             assets:
             `
-            
+
             for (const [key, value] of Object.entries(checksums)) {
               if (key.indexOf(context.payload.client_payload.toolName) != -1) {
               keyParts = key.split('.')[0].split("-")
@@ -86,9 +86,9 @@ jobs:
               `
               }
             }
-            
+
             console.log(result)
-            
+
             return result
       - name: Create release file
         run: |
@@ -121,9 +121,9 @@ jobs:
         run: |
           set -e -x
           filename="./${{ github.event.client_payload.toolName }}.rb"
-          
+
           ./scripts/generate_homebrew_formula.sh ./tmp/release.yml > $filename
-  
+
           cat $filename
       - name: Upload Homebrew File
         uses: actions/upload-artifact@v2
@@ -162,7 +162,7 @@ jobs:
       - name: Generate new releases.yaml
         run: |
           set -e -x
-          ./scripts/generate_releases_yaml.sh > releases.yaml
+          ./scripts/generate_releases_yaml.sh ./tmp/release.yml > releases.yaml
       - name: Upload releases.yaml File
         uses: actions/upload-artifact@v2
         with:
