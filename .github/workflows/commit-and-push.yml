@@ -6,11 +6,11 @@ on:
       authorName:
         required: false
         type: string
-        default: k8slt
+        default: carvel-bot
       authorEmail:
         required: false
         type: string
-        default: klt@groups.vmware.com
+        default: svc.bot.carvel@vmware.com
       repository:
         required: true
         type: string
