@@ -51,6 +51,9 @@ jobs:
       - name: Build the ${{ inputs.tool }} binary file
         run: |
           set -o pipefail
+          # KC get dependencies
+          test -x ./hack/install-deps.sh && ./hack/install-deps.sh
+          
           # Build Binary File
           ./hack/build.sh
       - name: Install trivy
