@@ -1,4 +1,4 @@
-name: published_release
+name: generate_publish_install.sh
 
 on:
   push:
