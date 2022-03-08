@@ -141,3 +141,4 @@ products:
     arch: amd64
     shasum: 0b91d60f9b215a54b12d1d54e6b5575d05bc9e1a88b566f710386751493c4353
     filename: vendir-windows-amd64.exe
+- product: kctrl
