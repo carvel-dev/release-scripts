@@ -1,7 +1,9 @@
-name: generate_publish_install.sh
+name: Update install.sh on Carvel Website
 
 on:
   push:
+    branches:    
+      - main
     paths:
       - releases.yaml
 jobs:
