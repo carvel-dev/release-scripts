@@ -8,6 +8,7 @@ on:
       - kbld_released
       - vendir_released
       - ytt_released
+      - kctrl_released
 
 jobs:
   process-release-information:
