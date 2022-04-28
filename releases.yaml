@@ -146,27 +146,27 @@ products:
     shasum: 06c3e6e8b02a553316a3e65e08b3583fde94b20a4b4e7cceb72fa1a8b57d7372
     filename: vendir-windows-amd64.exe
 - product: kctrl
-  version: v0.35.0
+  version: v0.36.1
   github:
     url: github.com/vmware-tanzu/carvel-kapp-controller
   assets:
   - os: darwin
     arch: amd64
-    shasum: 4fdd67d9c06f7ff43f9a38d1f182e01494cc62f081e3751d1d6d64da52e25ba7
+    shasum: 4f4037ab7537db4a4518354dd0372ff5aedeea5491a08ddcc23aa477274e15a1
     filename: kctrl-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: f7ec564d3f51307975f5412973a2a612ed2f060bf0147db4aed4e87f25ca51db
+    shasum: ed8417239c2d68d8f88f5bd9c54aa0dc9367a46df12f897d1cef14b1ed080390
     filename: kctrl-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: 7d2df9c83f68356d41cdc174c3baf53fdd0cc38e781c113ebfcb77d9d13ee234
+    shasum: d68f7400483950c0fc3190e637d2ecd644752ba577ad0164e05b575ff8c135f0
     filename: kctrl-linux-amd64
   - os: linux
     arch: arm64
-    shasum: 7a0658d1809fa598e48e21f7599246c7c01c24a9ca6f70b13532c0852a6769b5
+    shasum: b25baf6de16d3d0017b03336d7c5b4e983ff0ec8dd2fbb45bece11b13a884cb6
     filename: kctrl-linux-arm64
   - os: windows
     arch: amd64
-    shasum: f979886232e2b9d34b9b46801319fc03732af6c434b1597c64754027afb45f40
+    shasum: b96ebaaccaeab1291c3c1ea681ae2c9e433f60a64f27bc16a1beb5a67cae956a
     filename: kctrl-windows-amd64.exe
