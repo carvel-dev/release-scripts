@@ -54,33 +54,33 @@ products:
     shasum: 497edf0bf4df9627b5a42c247d035a327f2cc7776102a8fa4697eab9b9833dd1
     filename: imgpkg-windows-amd64.exe
 - product: kbld
-  version: v0.33.0
+  version: v0.34.0
   github:
     url: github.com/vmware-tanzu/carvel-kbld
   assets:
   - os: darwin
     arch: amd64
-    shasum: 181ac8be5652b54344617d90aa8e83fbb41756d1b4b99168fec85d8813b3c1b2
+    shasum: 5fd3afbe09a66fc9e91252c57448045eeeab1ee3f6d305da6f9885186b744e67
     filename: kbld-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: acbde20887239e383d23282ff7d4b017d248f28b7d2097043fed6b4387975723
+    shasum: 2962cd78c6c45cf3f03ca76c52ca7517ed5f2ceba6ed1b3d594a16d516ef05a2
     filename: kbld-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: 38a5dad7ed478d209c8206d95546989b2730c7fed914c78d85eed68a2233688e
+    shasum: 67c86ece94a3747b2e011a5b72044b69f2594ca807621b1e1e4c805f6abcaeef
     filename: kbld-linux-amd64
   - os: linux
     arch: arm64
-    shasum: ac02649e0037ae957b3d18af1f1563fcf2672ea5aa8d8e9da88ea5de6b705897
+    shasum: 658725c5dab5349dd4cb826ff9278749f093ed2275aadf51dc994265e6599b2c
     filename: kbld-linux-arm64
   - os: windows
     arch: amd64
-    shasum: 5b5b0a20378b95304d6ca61eb32235671c64be6ee7b99432f9d7ec77cbd70da2
+    shasum: 9dcb4d6db2901257f8f23059c13b41d37ef8b8b36f27d909cceb81934fc9e862
     filename: kbld-windows-amd64.exe
   - os: windows
     arch: arm64
-    shasum: e51a2bc092b69ae125f17b4f80edd78732f6927aa9a80cefd25f7f2f4af17565
+    shasum: 04c51f4aa92d117d22513727ee37cda1b5ae18bf94a223093f11727d0ba878b4
     filename: kbld-windows-arm64.exe
 - product: kapp
   version: v0.48.0
