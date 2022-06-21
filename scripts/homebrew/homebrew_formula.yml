@@ -24,9 +24,17 @@
 #@ def download_info(os, arch, product, version, github_url):
 #@ if has(os, arch):
   #@ sha256 = get_shasum(os, arch)
-  #@ return 'url "https://github.com/vmware-tanzu/carvel-{product}/releases/download/{version}/{product}-{os}-{arch}"\n      sha256 "{sha256}"'.format(product=product, version=version, sha256=sha256, os=os, arch=arch)
+  #@ return 'url "https://{github_url}/releases/download/{version}/{product}-{os}-{arch}"\n      sha256 "{sha256}"'.format(product=product, version=version, sha256=sha256, os=os, arch=arch, github_url=github_url)
 #@ else:
   #@ return 'odie "{os}/{arch} is not supported. If you would like support please raise an issue upstream to {github_url}"'.format(os=os, arch=arch, github_url=github_url)
+#@ end
+#@ end
+
+#@ def homepage(product):
+#@ if product == "kctrl":
+  #@ return "https://carvel.dev/kapp-controller/"
+#@ else:
+  #@ return "https://carvel.dev/{product}/".format(product=product)
 #@ end
 #@ end
 
@@ -34,7 +42,7 @@
 output: |
   class (@= data.values.product.capitalize() @) < Formula
     desc "(@= data.values.product.capitalize() @)"
-    homepage "https://carvel.dev/(@= data.values.product @)/"
+    homepage "(@= homepage(data.values.product) @)"
     version "(@= data.values.version @)"
 
     if OS.mac?
