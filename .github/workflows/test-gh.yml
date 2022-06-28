@@ -1,0 +1,23 @@
+name: test-gh
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  test-all:
+    name: Test GH
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install ytt
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: ytt
+    - name: Run Tests
+      run: |
+        ./hack/test-all.sh
