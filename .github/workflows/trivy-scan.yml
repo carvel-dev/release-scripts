@@ -87,7 +87,7 @@ jobs:
           trivy rootfs --ignore-unfixed --format json --output results.json ${{ inputs.tool }}
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
 
@@ -108,7 +108,7 @@ jobs:
 
       - name: Send Slack Notification if Scan Ran Successfully
         if: steps.cve-summary.outputs.summary != ''
-        uses: slackapi/slack-github-action@v1.16.0
+        uses: slackapi/slack-github-action@v1.21.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ steps.cve-summary.outputs.summary }}\"}"
         env:
@@ -116,7 +116,7 @@ jobs:
 
       - name: Send Slack Notification if Scan Failed
         if: failure()
-        uses: slackapi/slack-github-action@v1.16.0
+        uses: slackapi/slack-github-action@v1.21.0
         with:
           payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Failed\", \"summary\": \"Please review the scan information in Github\"}"
         env:
