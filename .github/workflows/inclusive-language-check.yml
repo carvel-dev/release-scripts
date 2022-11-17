@@ -1,0 +1,18 @@
+---
+name: Check inclusive language
+
+on:
+  workflow_call:
+
+jobs:
+  check-inclusive-language:
+    name: Check inclusive language
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: woke
+        run: |
+          curl -sSfL https://git.io/getwoke | bash -s -- -b /usr/local/bin
+          woke -c https://inclusivenaming.org/word-lists/index.json -o github-actions --exit-1-on-failure
