@@ -144,7 +144,7 @@ jobs:
           name: ytt-data-values-for-release
           path: ./tmp/release.yml
       - name: Install ytt
-        uses: vmware-tanzu/carvel-setup-action@v1
+        uses: carvel-dev/setup-action@v1
         with:
           only: ytt
       - name: Generate Homebrew File
@@ -162,11 +162,11 @@ jobs:
           path: ./${{ github.event.client_payload.toolName }}.rb
   release-on-homebrew:
     needs: prepare-homebrew-file
-    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
+    uses: carvel-dev/release-scripts/.github/workflows/commit-and-push.yml@main
     secrets:
       githubDeployPrivateKey: ${{ secrets.HOMEBREW_DEPLOY_PRIVATE_KEY }}
     with:
-      repository: vmware-tanzu/homebrew-carvel
+      repository: carvel-dev/homebrew
       branch: develop
       artifactName: homebrew-formula
       artifactPath: .
@@ -186,7 +186,7 @@ jobs:
           name: ytt-data-values-for-release
           path: ./tmp/release.yml
       - name: Install ytt
-        uses: vmware-tanzu/carvel-setup-action@v1
+        uses: carvel-dev/setup-action@v1
         with:
           only: ytt
       - name: Generate new releases.yaml
@@ -201,11 +201,11 @@ jobs:
           path: releases.yaml
   update-releases-yaml:
     needs: prepare-releases-file-for-install-sh
-    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/commit-and-push.yml@main
+    uses: carvel-dev/release-scripts/.github/workflows/commit-and-push.yml@main
     secrets:
       githubDeployPrivateKey: ${{ secrets.CARVEL_RELEASE_SCRIPTS_DEPLOY_PRIVATE_KEY }}
     with:
-      repository: vmware-tanzu/carvel-release-scripts
+      repository: carvel-dev/release-scripts
       branch: main
       artifactName: releases-yaml
       artifactPath: .

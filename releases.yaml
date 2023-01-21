@@ -2,7 +2,7 @@ products:
 - product: ytt
   version: v0.44.1
   github:
-    url: github.com/vmware-tanzu/carvel-ytt
+    url: github.com/carvel-dev/ytt
   assets:
   - os: darwin
     arch: amd64
@@ -31,7 +31,7 @@ products:
 - product: imgpkg
   version: v0.34.1
   github:
-    url: github.com/vmware-tanzu/carvel-imgpkg
+    url: github.com/carvel-dev/imgpkg
   assets:
   - os: darwin
     arch: amd64
@@ -56,7 +56,7 @@ products:
 - product: kbld
   version: v0.36.1
   github:
-    url: github.com/vmware-tanzu/carvel-kbld
+    url: github.com/carvel-dev/kbld
   assets:
   - os: darwin
     arch: amd64
@@ -85,7 +85,7 @@ products:
 - product: kapp
   version: v0.54.1
   github:
-    url: github.com/vmware-tanzu/carvel-kapp
+    url: github.com/carvel-dev/kapp
   assets:
   - os: darwin
     arch: amd64
@@ -110,7 +110,7 @@ products:
 - product: kwt
   version: v0.0.6
   github:
-    url: https://github.com/vmware-tanzu/carvel-kwt
+    url: github.com/carvel-dev/kwt
   assets:
   - os: darwin
     arch: amd64
@@ -123,7 +123,7 @@ products:
 - product: vendir
   version: v0.32.2
   github:
-    url: github.com/vmware-tanzu/carvel-vendir
+    url: github.com/carvel-dev/vendir
   assets:
   - os: darwin
     arch: amd64
@@ -148,7 +148,7 @@ products:
 - product: kctrl
   version: v0.44.1
   github:
-    url: github.com/vmware-tanzu/carvel-kapp-controller
+    url: github.com/carvel-dev/kapp-controller
   assets:
   - os: darwin
     arch: amd64
