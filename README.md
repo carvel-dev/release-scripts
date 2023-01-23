@@ -1,8 +1,8 @@
-# carvel-release-scripts
+# release-scripts
 
 ## Overview
 
-carvel-release-scripts contains scripting assets related to distributing carvel's binaries to the various distribution channels. i.e. Homebrew, carvel.dev install.sh script etc.
+release-scripts contains scripting assets related to distributing carvel's binaries to the various distribution channels. i.e. Homebrew, carvel.dev install.sh script etc.
 
 - .github/ contains github action workflow files
 - ./scripts/ contains scripts used by the github action in this repo
@@ -14,7 +14,7 @@ carvel-release-scripts contains scripting assets related to distributing carvel'
 for e.g.
 ```
 - run: |
-  curl -X POST https://api.github.com/repos/vmware-tanzu/carvel-release-scripts/dispatches \
+  curl -X POST https://api.github.com/repos/carvel-dev/release-scripts/dispatches \
   -H 'Accept: application/vnd.github.everest-preview+json' \
   -u ${{ secrets.ACCESS_TOKEN }} \
   --data '{"event_type": "<YourToolName>_released", "client_payload": { "tagName": "${{ github.event.release.tag_name }}", "repo": "${{ github.repository }}", "toolName": "<YourToolName>" }}'
@@ -51,18 +51,12 @@ on:
 
 jobs:
   trivy-scan:
-    uses: vmware-tanzu/carvel-release-scripts/.github/workflows/trivy-scan.yml@main
+    uses: carvel-dev/release-scripts/.github/workflows/trivy-scan.yml@main
     with:
-      repo: vmware-tanzu/carvel-imgpkg
+      repo: carvel-dev/imgpkg
       tool: imgpkg
       goVersion: 1.17.0
     secrets:
       githubToken: ${{ secrets.GITHUB_TOKEN }}
       slackWebhookURL: ${{ secrets.SLACK_WEBHOOK_URL }}
 ```
-
-## Contributing
-
-The carvel-release-scripts project team welcomes contributions from the community. 
-If you wish to contribute code and you have not signed our [contributor license agreement](https://cla.vmware.com/cla/1/preview), our bot will update the issue when you open a Pull Request. 
-For any questions about the CLA process, please refer to our [FAQ](https://cla.vmware.com/faq).

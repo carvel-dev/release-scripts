@@ -35,7 +35,7 @@ TestKappHomebrewFormula() {
 product: kapp
 version: v0.38.0
 github:
-  url: 'github.com/vmware-tanzu/carvel-kapp'
+  url: 'github.com/carvel-dev/kapp'
 assets:
   - os: 'darwin'
     arch: 'amd64'
@@ -62,18 +62,18 @@ class Kapp < Formula
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.38.0/kapp-darwin-arm64"
+      url "https://github.com/carvel-dev/kapp/releases/download/v0.38.0/kapp-darwin-arm64"
       sha256 "kapp-darwin-arm64-shasum"
     else
-      url "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.38.0/kapp-darwin-amd64"
+      url "https://github.com/carvel-dev/kapp/releases/download/v0.38.0/kapp-darwin-amd64"
       sha256 "kapp-darwin-amd64-shasum"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.38.0/kapp-linux-arm64"
+      url "https://github.com/carvel-dev/kapp/releases/download/v0.38.0/kapp-linux-arm64"
       sha256 "kapp-linux-arm64-shasum"
     else
-      url "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.38.0/kapp-linux-amd64"
+      url "https://github.com/carvel-dev/kapp/releases/download/v0.38.0/kapp-linux-amd64"
       sha256 "kapp-linux-amd64-shasum"
     end
   end
@@ -103,7 +103,7 @@ TestImgpkgHomebrewFormula() {
 product: imgpkg
 version: v0.38.0
 github:
-  url: 'github.com/vmware-tanzu/carvel-imgpkg'
+  url: 'github.com/carvel-dev/imgpkg'
 assets:
   - os: 'darwin'
     arch: 'amd64'
@@ -130,18 +130,18 @@ class Imgpkg < Formula
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/v0.38.0/imgpkg-darwin-arm64"
+      url "https://github.com/carvel-dev/imgpkg/releases/download/v0.38.0/imgpkg-darwin-arm64"
       sha256 "imgpkg-darwin-arm64-shasum"
     else
-      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/v0.38.0/imgpkg-darwin-amd64"
+      url "https://github.com/carvel-dev/imgpkg/releases/download/v0.38.0/imgpkg-darwin-amd64"
       sha256 "imgpkg-darwin-amd64-shasum"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/v0.38.0/imgpkg-linux-arm64"
+      url "https://github.com/carvel-dev/imgpkg/releases/download/v0.38.0/imgpkg-linux-arm64"
       sha256 "imgpkg-linux-arm64-shasum"
     else
-      url "https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/v0.38.0/imgpkg-linux-amd64"
+      url "https://github.com/carvel-dev/imgpkg/releases/download/v0.38.0/imgpkg-linux-amd64"
       sha256 "imgpkg-linux-amd64-shasum"
     end
   end
@@ -171,7 +171,7 @@ TestKctrlHomebrewFormula() {
 product: kctrl
 version: v0.38.0
 github:
-  url: 'github.com/vmware-tanzu/carvel-kapp-controller'
+  url: 'github.com/carvel-dev/kapp-controller'
 assets:
   - os: 'darwin'
     arch: 'amd64'
@@ -198,18 +198,18 @@ class Kctrl < Formula
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/vmware-tanzu/carvel-kapp-controller/releases/download/v0.38.0/kctrl-darwin-arm64"
+      url "https://github.com/carvel-dev/kapp-controller/releases/download/v0.38.0/kctrl-darwin-arm64"
       sha256 "kctrl-darwin-arm64-shasum"
     else
-      url "https://github.com/vmware-tanzu/carvel-kapp-controller/releases/download/v0.38.0/kctrl-darwin-amd64"
+      url "https://github.com/carvel-dev/kapp-controller/releases/download/v0.38.0/kctrl-darwin-amd64"
       sha256 "kctrl-darwin-amd64-shasum"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/vmware-tanzu/carvel-kapp-controller/releases/download/v0.38.0/kctrl-linux-arm64"
+      url "https://github.com/carvel-dev/kapp-controller/releases/download/v0.38.0/kctrl-linux-arm64"
       sha256 "kctrl-linux-arm64-shasum"
     else
-      url "https://github.com/vmware-tanzu/carvel-kapp-controller/releases/download/v0.38.0/kctrl-linux-amd64"
+      url "https://github.com/carvel-dev/kapp-controller/releases/download/v0.38.0/kctrl-linux-amd64"
       sha256 "kctrl-linux-amd64-shasum"
     end
   end
