@@ -20,7 +20,8 @@ jobs:
           only: ytt
       - run: |
           set -e -x
-          ./scripts/generate_install_sh.sh
+
+          ./scripts/generate_install_sh.sh ./tmp/release.yml ./tmp/
           mv ./tmp/install.sh.txt ./install.sh
           chmod u+x install.sh
       - name: Upload install.sh
