@@ -4,9 +4,7 @@ set -eu
 
 testDir="./tmp-install-sh"
 outputFolder="./tmp-install-sh-output"
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-NC=$(tput sgr0)
+source "$(dirname "$0")/assertions.sh"
 
 function cleanup {
   echo "Removing $testDir"
@@ -21,17 +19,6 @@ generateInstallSH() {
     ./scripts/generate_install_sh.sh "$1" "$2"
 }
 
-exit_if_error() {
-  local exit_code=$1
-  shift
-  [[ $exit_code ]] &&               
-    ((exit_code != 0)) && {         
-      printf 'ERROR: %s\n' "$@" >&2 
-      removeTestDirectory
-      exit "$exit_code"             
-    }
-}
-
 createFileWithContent() {
     mkdir -p $testDir
     cat <<EOF >./$testDir/"$1"
@@ -43,28 +30,6 @@ removeTestDirectory() {
     rm -r $testDir
 }
 
-testAssertionOK() {
-  local funcName=${FUNCNAME[1]}
-  local result=$1
-  local message=$2
-  
-  if $result; then
-    echo "$funcName": "$GREEN"SUCCESS"$NC"
-  else 
-    exit_if_error 1 "$RED $funcName - FAIL:$NC $message"
-  fi
-}
-testAssertionNotOK() {
-  local funcName=${FUNCNAME[1]}
-  local result=$1
-  local message=$2
-  
-  if $result; then
-    echo "$funcName": "$GREEN"SUCCESS"$NC"
-  else 
-    exit_if_error 1 "$funcName - FAIL: $message"
-  fi
-}
 
 TestBasicInstallationScript() {
     createFileWithContent "ytt-release.yml" "
