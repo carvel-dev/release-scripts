@@ -1,8 +1,15 @@
 #!/bin/bash
+set -eu
 
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-NC=$(tput sgr0)
+if [ "$TERM" == "dumb" ]; then
+  RED=
+  GREEN=
+  NC=
+else
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  NC=$(tput sgr0)
+fi
 
 testAssertionOK() {
   local funcName=${FUNCNAME[1]}
