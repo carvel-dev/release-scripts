@@ -2,6 +2,8 @@
 
 set -eu
 
+source "$(dirname "$0")/assertions.sh"
+
 generateHomeBrewFormula() {
     ./scripts/generate_homebrew_formula.sh $1 > ./tmp/result.rb
 }
@@ -88,12 +90,8 @@ class Kapp < Formula
   end
 end'
 
-    generateHomeBrewFormula "./tmp/kapp-release.yml"   
-    if diff ./tmp/expected-result.rb ./tmp/result.rb --ignore-blank-lines; then
-        echo TestKappHomebrewFormula: SUCCESS
-    else
-        exit_if_error 1 "TestKappHomebrewFormula: Expected results to have matched"
-    fi 
+    generateHomeBrewFormula "./tmp/kapp-release.yml"
+    testAssertionOK "diff ./tmp/expected-result.rb ./tmp/result.rb --ignore-blank-lines" "Expected results to have matched" 
 }
 
 TestImgpkgHomebrewFormula() {
@@ -157,11 +155,7 @@ class Imgpkg < Formula
 end'
 
     generateHomeBrewFormula "./tmp/imgpkg-release.yml"   
-    if diff ./tmp/expected-result.rb ./tmp/result.rb --ignore-blank-lines; then
-        echo TestImgpkgHomebrewFormula: SUCCESS
-    else
-        exit_if_error 1 "TestImgpkgHomebrewFormula: Expected results to have matched"
-    fi 
+    testAssertionOK "diff ./tmp/expected-result.rb ./tmp/result.rb --ignore-blank-lines" "Expected results to have matched"
 }
 
 TestKctrlHomebrewFormula() {
@@ -224,12 +218,8 @@ class Kctrl < Formula
   end
 end'
 
-    generateHomeBrewFormula "./tmp/kctrl-release.yml"   
-    if diff ./tmp/expected-result.rb ./tmp/result.rb --ignore-blank-lines; then
-        echo TestKctrlHomebrewFormula: SUCCESS
-    else
-        exit_if_error 1 "TestKctrlHomebrewFormula: Expected results to have matched"
-    fi 
+    generateHomeBrewFormula "./tmp/kctrl-release.yml"
+    testAssertionOK "diff ./tmp/expected-result.rb ./tmp/result.rb --ignore-blank-lines" "Expected results to have matched"
 }
 
 TestKappHomebrewFormula
