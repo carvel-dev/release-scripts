@@ -1,32 +1,32 @@
 products:
 - product: ytt
-  version: v0.45.0
+  version: v0.45.1
   github:
     url: github.com/carvel-dev/ytt
   assets:
   - os: darwin
     arch: amd64
-    shasum: c2781a30caf7f573dece6ec186ac0e97470d0de2eccf9fcf63f267c35495ac30
+    shasum: 1c9a0167b4d0d92e112fc817273c7e168f8c8b0ef9a4040bd7695add1d0c7df6
     filename: ytt-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 3262a49fd8b2e73d8bf5776d9afc16b64c5e0300a842f30acf4d1b6ec080e228
+    shasum: 0f151a7191ade2269fd67932e35547c75b89948a96a0f33615765041993b55a2
     filename: ytt-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: d05f430ac18b3791d831f4cfd78371a7549f225dfaeb6fef2e5bfcd293d6c382
+    shasum: 01606d885cdbce02340faadc29a83b5415280bc610e7cff3f639385d8f504aea
     filename: ytt-linux-amd64
   - os: linux
     arch: arm64
-    shasum: 54e228823e851320b848d854218004299d2ff362e0fe9e287d5a52df502baaaf
+    shasum: e5112e7c69c4e664d245a5482fad95f07b49b04c77c7b2c86f1eab86d294817a
     filename: ytt-linux-arm64
   - os: windows
     arch: amd64
-    shasum: 49a857875a07640dc3a5e522cbc19ef2f9ba74b8c2047848b845b20d0addc4a8
+    shasum: 50cee1125897b67aa51d02c5ef13bf9632ad042251fec7fc7ae51376a90fe5da
     filename: ytt-windows-amd64.exe
   - os: windows
     arch: arm64
-    shasum: e381003ecf167e9a7dadf5a18026511f08a1c5fd9a393ad565650e3c7d444be2
+    shasum: 0d06d9a822b589234dc000111e993e244705e117d20c4c74435fc642c0f2d459
     filename: ytt-windows-arm64.exe
 - product: imgpkg
   version: v0.36.1
