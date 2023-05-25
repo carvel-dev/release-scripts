@@ -2,7 +2,7 @@ name: Update install.sh on Carvel Website
 
 on:
   push:
-    branches:    
+    branches:
       - main
     paths:
       - releases.yaml
@@ -21,7 +21,7 @@ jobs:
       - run: |
           set -e -x
 
-          ./scripts/generate_install_sh.sh ./tmp/release.yml ./tmp/
+          ./scripts/generate_install_sh.sh ./releases.yml ./tmp/
           mv ./tmp/install.sh.txt ./install.sh
           chmod u+x install.sh
       - name: Upload install.sh
