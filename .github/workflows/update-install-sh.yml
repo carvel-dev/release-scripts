@@ -1,6 +1,7 @@
 name: Update install.sh on Carvel Website
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
