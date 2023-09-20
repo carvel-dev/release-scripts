@@ -54,33 +54,33 @@ products:
     shasum: 88a2b43d102286f6909a86db01114a0e6ec990c1bf75f4a964871761079460b7
     filename: imgpkg-windows-amd64.exe
 - product: kbld
-  version: v0.37.5
+  version: v0.37.6
   github:
     url: github.com/carvel-dev/kbld
   assets:
   - os: darwin
     arch: amd64
-    shasum: 21f049cb8b2bfa303ac976848f58fb978d93a715451ff1daaaa520866a8c748e
+    shasum: 5ae0175372b36c40ffc40db32a6e0ef0d30a260b6b717ef5836a9f9a34bf7f72
     filename: kbld-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 3810b2ee53001a17c4bc846842168372ad3d710ae043628ce9d3516f41d7ceee
+    shasum: 4e63fbb638327aa00aa30ae54bc441d2e52ded0f299c67688d005d86d9c9d7a6
     filename: kbld-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: 90f9ef52e6e15e76f4b077f918d8ef26f3b6514229011fc35a83c890cd59dc38
+    shasum: 1e07f2f646c752cc67f7e4d41f098497e2e49f2798deb95fb5b56ca9598ab7ae
     filename: kbld-linux-amd64
   - os: linux
     arch: arm64
-    shasum: 1d5a4f8782e98d9be71365032a1be488e09ebd6334cf46a4efafff277180d44f
+    shasum: 31292539125e5735159e5d1c447876a73832a12b10442282697299cc2f2ade55
     filename: kbld-linux-arm64
   - os: windows
     arch: amd64
-    shasum: ffdf9701a10d2dea63020f6c14abb1262792e8b31cfc86edf778079eb5b931aa
+    shasum: ff8a53182dc2a84b931c9d32d79ee73493930f30b2811be9ad25c8d11a5ede22
     filename: kbld-windows-amd64.exe
   - os: windows
     arch: arm64
-    shasum: cd54ae09a2ac3a6ec283349597697e68e6cf47b257cc806a931495e7f4e8125c
+    shasum: 2cef810d9c007515fe7ffb5932844eb9b8101c17798bb7f291fb3528b872316e
     filename: kbld-windows-arm64.exe
 - product: kapp
   version: v0.59.0
