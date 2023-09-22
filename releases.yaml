@@ -29,29 +29,29 @@ products:
     shasum: 1ff2102dc9dada482060de0504698683e5d8b8721441841795136b92da68e664
     filename: ytt-windows-arm64.exe
 - product: imgpkg
-  version: v0.37.5
+  version: v0.38.0
   github:
     url: github.com/carvel-dev/imgpkg
   assets:
   - os: darwin
     arch: amd64
-    shasum: 07ef96b0f34fdf4d984ceb3acaa8f34dd0d7c5e4fcbd7404f3ee4e2f424df1d3
+    shasum: 348d7172359eb51bd837990ab43a62665f25bb5e3ea2f7c36ca7cfb1da8994b8
     filename: imgpkg-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 1d16a9795f12adfaf88ac653ee4bc8123d1f0ac441099efabeeecd4e3541ccc0
+    shasum: 9678b49af36d48d11dcbfd262f4deb1ea7f6266dcd135c120fffa24c7002e288
     filename: imgpkg-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: 264b058d9f747fbd4942d39e0a47748f907e4eea8ec7c69a20637c8ef9c7bfe0
+    shasum: 3f272fc7eacb129a989b8f686ea59455ab7e65423192803c15d6affb963f86a9
     filename: imgpkg-linux-amd64
   - os: linux
     arch: arm64
-    shasum: 6cfdfa2127cfae54787c457dee52041be5210253fb887f4d01f92e6eaa50138a
+    shasum: 975f013ac48007314a34aa2d575c09fb186db0918f446a5ef0905ec2730453ef
     filename: imgpkg-linux-arm64
   - os: windows
     arch: amd64
-    shasum: 5a4be581d5375ed2387606df33f1d30f658587fcc151f3e5846a4b802710c55e
+    shasum: ed641678c778844c42a5b0bfc0d66b43b92fd4c4bd7e2cd9e440e1cf2129d18e
     filename: imgpkg-windows-amd64.exe
 - product: kbld
   version: v0.37.7
