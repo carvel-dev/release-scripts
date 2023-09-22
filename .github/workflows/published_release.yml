@@ -9,6 +9,7 @@ on:
       - vendir_released
       - ytt_released
       - kctrl_released
+      - kwt_released
 
 jobs:
   process-release-information:
