@@ -19,6 +19,7 @@ jobs:
         uses: carvel-dev/setup-action@v1
         with:
           only: ytt
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           set -e -x
 
