@@ -108,25 +108,25 @@ products:
     shasum: b664210ecb9330f6f05c3a0d19eb801d4f8d07d2bd2198d01e7cd8f0301be6ae
     filename: kapp-windows-amd64.exe
 - product: kwt
-  version: v0.0.7
+  version: v0.0.8
   github:
     url: github.com/carvel-dev/kwt
   assets:
   - os: darwin
     arch: amd64
-    shasum: 8d131cc796d8c2204be3d810c4abe6ec2fc502ad3df1583f64c5863dc50d957a
+    shasum: ea9e6eb76b203799d9f0d3177ac32b9d1d8e531bae363141dfe7030cb6e53a88
     filename: kwt-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 6e951943cbcf75aa7dfb29438f9297742398c47364c407df58db148a609217ff
+    shasum: b303037a022ad260c22517c49f7368eb101d48f7056cc2d82a33bbf3d659b989
     filename: kwt-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: 02368ab941d354f44399900ce0ff43054ebc8faa7c9fbf414d6a95f02f68aa92
+    shasum: 1022483a8b59fe238e782a9138f1fee6ca61ecf7ccd1e5f0d98e95c56df94d87
     filename: kwt-linux-amd64
   - os: linux
     arch: arm64
-    shasum: eb0aac724879c0c3d7db012d7f5b4bb9de7d13262c5f9474dd5d094828b46a90
+    shasum: 7b94a134cbde5ff2e245d102f54b9ac9f81b3fcc5e54a5cefecc1e5845b8a65f
     filename: kwt-linux-arm64
 - product: vendir
   version: v0.35.0
