@@ -129,29 +129,29 @@ products:
     shasum: 7b94a134cbde5ff2e245d102f54b9ac9f81b3fcc5e54a5cefecc1e5845b8a65f
     filename: kwt-linux-arm64
 - product: vendir
-  version: v0.39.0
+  version: v0.40.0
   github:
     url: github.com/carvel-dev/vendir
   assets:
   - os: darwin
     arch: amd64
-    shasum: 90ae82718c1072831f3097bdb031d5a897cc9f2f8334e2e1d7f35e35d0abd84f
+    shasum: 0bf3840619436908b11fce2c7015d928450b41a3b9ef19fecc6223ff2ed084a4
     filename: vendir-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 91ecf04ad5cdfa0f8839dc1430da7a4da665f7cb88c64c0c72202f6db261e651
+    shasum: b6defba97d36e26e02df8b263de17061bbbc432365c9d26070eb7a837d7e33fc
     filename: vendir-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: feb2836153508adfb6fd33c127e466c9ce26577678e93a252be2fec445f4501f
+    shasum: 3e076a452d88d6e3bc190d527f4d7c949ab6eccae19bf5d3cbb910d53724f2b9
     filename: vendir-linux-amd64
   - os: linux
     arch: arm64
-    shasum: 012531a2f1a2de8bc89f1623edfc40a7ac5aee421fe609085278fb9e287f1cdf
+    shasum: c43469a085dd0f6cebdab97a7747710f9dafa4886dd5e0ae7c1d3f975a12756e
     filename: vendir-linux-arm64
   - os: windows
     arch: amd64
-    shasum: 20b71cc25dc3fea31edf9667c92a05167f713935f854882159736443c2f7a0e6
+    shasum: 1b8e5eea893f78ed04b6834f24e1a69bbc9259cd7662bd7fe11283cdf8c482d0
     filename: vendir-windows-amd64.exe
 - product: kctrl
   version: v0.50.0
