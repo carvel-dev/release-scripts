@@ -135,23 +135,23 @@ products:
   assets:
   - os: darwin
     arch: amd64
-    shasum: 842ad455037671e0b27149668a2563cd21b96864af1e1df85b0ed3bbba730a4f
+    shasum: 3941cf7b7ba1219d574b93ce1bd8b77928ad9ff9cdf8e2debf3ae11ae695792f
     filename: vendir-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 32934469836e03b11dd519ac5979dbea7213dad3e7c7b015c92a38a1c3ccdc46
+    shasum: 34974c9a6a6e32eb21adac47ce72df6340d36886b5ebe8b5937444a0d7ecc529
     filename: vendir-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: bd8ede60750471783b345ba969f6ccd3bf59d041ed093a4dea00f9bffa03376d
+    shasum: d7c602d8882085be78cd02a575a6c3b437bb2fa1ff1067712f593d8cf05c94fa
     filename: vendir-linux-amd64
   - os: linux
     arch: arm64
-    shasum: ee0d7571f365101046448055aa7d1577a80074fccae5836370c0725371493b97
+    shasum: 43e98922103ef30995a11bd4491b138b635c9b7bf17f98475fb5a06c87392e1d
     filename: vendir-linux-arm64
   - os: windows
     arch: amd64
-    shasum: 98b4822e6d391eda850f05a8bef0f534b0326fe83046fe1482d935cac77e5901
+    shasum: 7d240b999712e617021e057afeabf2803a89ab93ca91f44a58e063fa74d7eee3
     filename: vendir-windows-amd64.exe
 - product: kctrl
   version: v0.50.2
