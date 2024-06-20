@@ -20,7 +20,7 @@ on:
         required: false
         type: string
         description: Version of Go used to compile the application
-        default: 1.17.0
+        default: ""
     secrets:
       slackWebhookURL:
         required: true
@@ -36,17 +36,24 @@ jobs:
       security-events: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
           repository: ${{ inputs.repo }}
           ref: ${{ inputs.branch }}
 
+      # Backwards compatibility, when no version is provided it will use the go.mod file version
       - name: Set up Go
-        uses: actions/setup-go@v2
+        if: inputs.goVersion != ''
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ inputs.goVersion }}
+      - name: Set up Go
+        if: inputs.goVersion == ''
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
 
       - name: Build the ${{ inputs.tool }} binary file
         run: |
