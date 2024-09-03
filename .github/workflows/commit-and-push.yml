@@ -45,7 +45,7 @@ jobs:
           persist-credentials: false
           repository: ${{ inputs.repository }}
       - name: Download artifacts to be added to the repository
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ${{ inputs.artifactName }}
           path: ${{ inputs.artifactPath }}

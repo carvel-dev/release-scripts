@@ -140,7 +140,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download ytt data values file with release information
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ytt-data-values-for-release
           path: ./tmp/release.yml
@@ -182,7 +182,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download ytt data values file with release information
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ytt-data-values-for-release
           path: ./tmp/release.yml
