@@ -127,7 +127,7 @@ jobs:
           ${{ steps.get-checksums-from-release.outputs.result }}
           EOF
       - name: Upload Release information file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: ytt-data-values-for-release
           path: ./release.yml
@@ -157,7 +157,7 @@ jobs:
 
           cat $filename
       - name: Upload Homebrew File
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: homebrew-formula
           path: ./${{ github.event.client_payload.toolName }}.rb
@@ -197,7 +197,7 @@ jobs:
           ./scripts/generate_releases_yaml.sh ./tmp/release.yml > ./tmp/releases.yaml
           mv ./tmp/releases.yaml ./releases.yaml
       - name: Upload releases.yaml File
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: releases-yaml
           path: releases.yaml
