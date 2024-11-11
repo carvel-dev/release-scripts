@@ -63,16 +63,11 @@ jobs:
           
           # Build Binary File
           ./hack/build.sh
-      - name: Install trivy
-        run: |
-          set -o pipefail
-          
-          # https://aquasecurity.github.io/trivy/v0.18.3/installation/
-          sudo apt-get install wget apt-transport-https gnupg lsb-release
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update
-          sudo apt-get install trivy
+
+      - name: Trivy Cache
+        uses: yogeshlonkar/trivy-cache-action@v0
+        with:
+          gh-token: ${{ secrets.githubToken }}
 
       - name: Read dismissed CVEs from Github
         run: |
@@ -87,49 +82,18 @@ jobs:
             --header 'authorization: Bearer ${{ secrets.githubToken }}' > cves.txt
           cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed" or .state == "fixed") | .rule.id' | tr -d '"' > .trivyignore
 
-      - name: Run trivy to generate reports
-        env:
-          GITHUB_TOKEN: ${{ secrets.githubToken }}
-        run: |
-          set -o pipefail
-          # Generate trivy report in sarif format
-          trivy rootfs --ignore-unfixed --format sarif --output trivy-results.sarif ${{ inputs.tool }}
-
-          # Generate trivy report in json format
-          trivy rootfs --ignore-unfixed --format json --output results.json ${{ inputs.tool }}
+      - name: Run Trivy scanner output sarif
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '${{ inputs.tool }}'
+          format: 'sarif'
+          severity: 'HIGH,CRITICAL'
+          output: 'trivy-results.sarif'
+          exit-code: 1
 
       - name: Upload Trivy scan results to GitHub Security tab
+        if: always()
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
-
-      - name: Create Issues Summary
-        id: cve-summary
-        run: |
-          # We should fail the github action even if there is an issue with `jq` parsing. Hence set -o pipefail
-          set -o pipefail
-          summary=$(jq '.Results[]? | select(.Vulnerabilities) | .Vulnerabilities | group_by(.Severity) | map({Severity: .[0].Severity, Count: length}) | tostring' results.json | tr -d \\ | tr -d '"')
-
-          if [ -n $summary ]
-          then
-            echo "Summary: $summary"
-            echo "::set-output name=summary::$summary"
-          else
-            echo "No new Issues where found"
-          fi
-
-      - name: Send Slack Notification if Scan Ran Successfully
-        if: steps.cve-summary.outputs.summary != ''
-        uses: slackapi/slack-github-action@v1.21.0
-        with:
-          payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Success\", \"summary\": \"${{ steps.cve-summary.outputs.summary }}\"}"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
-
-      - name: Send Slack Notification if Scan Failed
-        if: failure()
-        uses: slackapi/slack-github-action@v1.21.0
-        with:
-          payload: "{\"tool\":\"${{ inputs.tool }}\",\"result\":\"Failed\", \"summary\": \"Please review the scan information in Github\"}"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.slackWebhookURL }}
