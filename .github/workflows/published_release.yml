@@ -136,7 +136,7 @@ jobs:
     needs: process-release-information
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download ytt data values file with release information
@@ -178,7 +178,7 @@ jobs:
     needs: process-release-information
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download ytt data values file with release information
