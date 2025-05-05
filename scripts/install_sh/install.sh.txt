@@ -9,6 +9,20 @@ if test -z "$BASH_VERSION"; then
   exit 1
 fi
 
+# Function to check for required commands
+check_command() {
+    command -v "$1" >/dev/null 2>&1 || { echo >&2 "Error: $1 is required but not installed."; exit 1; }
+}
+
+# Check for required commands
+check_command sha256sum || check_command sha1sum
+
+# Set checksum command based on availability
+CHECKSUM_CMD=sha256sum
+if ! command -v $CHECKSUM_CMD >/dev/null 2>&1; then
+    CHECKSUM_CMD=sha1sum
+fi
+
 install() {
   set -euo pipefail
 
@@ -17,10 +31,11 @@ install() {
   if [ -x "$(command -v wget)" ]; then
     dl_bin="wget -nv -O-"
   else
+    check_command curl
     dl_bin="curl -s -L"
   fi
 
-  shasum -v 1>/dev/null 2>&1 || (echo "Missing shasum binary" && exit 1)
+  $CHECKSUM_CMD -v 1>/dev/null 2>&1 || (echo "Missing shasum binary" && exit 1)
 
   if [[ `uname` == Darwin ]]; then
     binary_type=darwin-amd64
@@ -37,7 +52,7 @@ install() {
   (@ for val in data.values.products: @)
   echo "Installing (@= val.product @)..."
   $dl_bin (@= addProtocol(val.github.url) @)/releases/download/(@= val.version @)/(@= val.product @)-${binary_type} > /tmp/(@= val.product @)
-  echo "${(@= val.product @)_checksum}  /tmp/(@= val.product @)" | shasum -c -
+  echo "${(@= val.product @)_checksum}  /tmp/(@= val.product @)" | $CHECKSUM_CMD -c -
   mv /tmp/(@= val.product @) ${dst_dir}/(@= val.product @)
   chmod +x ${dst_dir}/(@= val.product @)
   echo "Installed ${dst_dir}/(@= val.product @) (@= val.version @)"
