@@ -172,7 +172,50 @@ jobs:
       artifactName: homebrew-formula
       artifactPath: .
 
+  prepare-documentation-update:
+    runs-on: ubuntu-latest
+    needs: [process-release-information,update-releases-yaml]
+    if: endsWith(github.event.client_payload.tagName, '.0')
+    steps:
+      - name: Install ytt
+        uses: carvel-dev/setup-action@v1
+        with:
+          only: ytt
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout website
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          repository: 'github.com/carvel-dev/carvel'
+          path: website
+      - name: Run documentation update
+        run: |
+          pushd website/site
+          docVersion=`echo ${{ github.event.client_payload.tagName }} | awk -F. '{print $1"."$2".x"}'`
+          ./hack/release-doc.sh ${{ github.event.client_payload.toolName }} ${docVersion}
+          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
+          AUTHOR_EMAIL='carvel-bot@users.noreply.github.com'
+          AUTHOR_NAME='carvel-bot'
+          MESSAGE="chore: auto-update documentation for ${{ github.event.client_payload.toolName }} ${docVersion} ${timestamp}"
+
+          remote_repo="git@github.com:${REPOSITORY}"
+
+          tempkey=`basename $0`
+          TMP_DEPLOY_PRIV_KEY=`mktemp /tmp/${tempkey}.XXXXXX` || exit 1
+          echo "${{ secrets.INSTALL_SH_DEPLOY_PRIVATE_KEY }}" > $TMP_DEPLOY_PRIV_KEY
+          eval $(ssh-agent -s)
+          ssh-add ${TMP_DEPLOY_PRIV_KEY}
+
+          git config http.sslVerify true
+          git config --local user.email "${AUTHOR_EMAIL}"
+          git config --local user.name "${AUTHOR_NAME}"
+
+          git add -A
+
+          git commit -m "${MESSAGE}" $_EMPTY || exit 0
+
+          git push "${remote_repo}" HEAD:develop --follow-tags;
   prepare-releases-file-for-install-sh:
     runs-on: ubuntu-latest
     needs: process-release-information
