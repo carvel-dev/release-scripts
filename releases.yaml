@@ -87,29 +87,29 @@ products:
     shasum: 974c4d63675e1d57f58fdbd89e838e12e04833389a7d3cce97a30c4cad14024f
     filename: kbld-windows-arm64.exe
 - product: kapp
-  version: v0.65.1
+  version: v0.65.2
   github:
     url: github.com/carvel-dev/kapp
   assets:
   - os: darwin
     arch: amd64
-    shasum: 50f60126a3ab91b220ecf9f81b4da05a68231ad6fc5e944a1448bafab3d70774
+    shasum: 91bd0bcc041b9ce135d8f119dc8e404bce7f8f7aa1c3b10cb34ac25d88ca2d7f
     filename: kapp-darwin-amd64
   - os: darwin
     arch: arm64
-    shasum: 05be91c13b02646ed31b053720cbe27b840b10c62fa7a565fbfe817ce45ed97f
+    shasum: 0285fd258404b902d3a27d17f7a4ce7a01936edef7a1b822632d13b407afb39d
     filename: kapp-darwin-arm64
   - os: linux
     arch: amd64
-    shasum: 057d7fe33dd6afeb452a888d37995f789b9de0778ce4908896e37d37c52e6ead
+    shasum: 38b0a6eb958210f5db2cf79ee4082adf7b6cf52de983b5364c56d03d898b6439
     filename: kapp-linux-amd64
   - os: linux
     arch: arm64
-    shasum: 1d92b138d8cf93ae627a3b9dbb1f31fc3d6d6298304f90fdbc122acf3b84c13a
+    shasum: a877a004f8b703218883c3f7140bda216f53b9b9e5b29fecf5cec7d4ad6d85b0
     filename: kapp-linux-arm64
   - os: windows
     arch: amd64
-    shasum: fc40792f6c363b98ecf4d08fd95ce79ececc1076629eb3f1b5a2413b22a6ace2
+    shasum: 20c42452744622c140dac28c9820405c115974899ea90817325c494855578195
     filename: kapp-windows-amd64.exe
 - product: kwt
   version: v0.0.8
