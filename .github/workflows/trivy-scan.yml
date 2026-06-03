@@ -83,7 +83,7 @@ jobs:
           cat cves.txt| jq '.[] | select(.state == "dismissed" or .state == "closed" or .state == "fixed") | .rule.id' | tr -d '"' > .trivyignore
 
       - name: Run Trivy scanner output sarif
-        uses: aquasecurity/trivy-action@0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: '${{ inputs.tool }}'
