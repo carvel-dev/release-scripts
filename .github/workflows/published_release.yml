@@ -17,7 +17,7 @@ jobs:
     outputs:
       yttValuesFile: ${{ steps.get-checksums-from-release.outputs.result }}
     steps:
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v9
         id: check-if-latest-release
         with:
           result-encoding: string
@@ -46,7 +46,7 @@ jobs:
             }
             return 0
 
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v9
         id: get-checksums-from-release
         if: startsWith(github.ref, 'refs/tags/') && ${{ !env.ACT }}
         with:
@@ -127,7 +127,7 @@ jobs:
           ${{ steps.get-checksums-from-release.outputs.result }}
           EOF
       - name: Upload Release information file
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7
         with:
           name: ytt-data-values-for-release
           path: ./release.yml
@@ -136,16 +136,16 @@ jobs:
     needs: process-release-information
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Download ytt data values file with release information
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8
         with:
           name: ytt-data-values-for-release
           path: ./tmp/release.yml
       - name: Install ytt
-        uses: carvel-dev/setup-action@v1
+        uses: carvel-dev/setup-action@v2
         with:
           only: ytt
       - name: Generate Homebrew File
@@ -157,7 +157,7 @@ jobs:
 
           cat $filename
       - name: Upload Homebrew File
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7
         with:
           name: homebrew-formula
           path: ./${{ github.event.client_payload.toolName }}.rb
@@ -178,18 +178,20 @@ jobs:
     if: endsWith(github.event.client_payload.tagName, '.0')
     steps:
       - name: Install ytt
-        uses: carvel-dev/setup-action@v1
+        uses: carvel-dev/setup-action@v2
         with:
           only: ytt
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout website
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          repository: 'github.com/carvel-dev/carvel'
+          repository: 'carvel-dev/carvel'
+          ref: develop
           path: website
       - name: Run documentation update
         run: |
+          set -e -x
           pushd website/site
           docVersion=`echo ${{ github.event.client_payload.tagName }} | awk -F. '{print $1"."$2".x"}'`
           ./hack/release-doc.sh ${{ github.event.client_payload.toolName }} ${docVersion}
@@ -199,13 +201,15 @@ jobs:
           AUTHOR_NAME='carvel-bot'
           MESSAGE="chore: auto-update documentation for ${{ github.event.client_payload.toolName }} ${docVersion} ${timestamp}"
 
-          remote_repo="git@github.com:${REPOSITORY}"
+          remote_repo="git@github.com:carvel-dev/carvel"
 
           tempkey=`basename $0`
           TMP_DEPLOY_PRIV_KEY=`mktemp /tmp/${tempkey}.XXXXXX` || exit 1
-          echo "${{ secrets.INSTALL_SH_DEPLOY_PRIVATE_KEY }}" > $TMP_DEPLOY_PRIV_KEY
+          trap "rm -f ${TMP_DEPLOY_PRIV_KEY}" EXIT
+          echo "${{ secrets.INSTALL_SH_DEPLOY_PRIVATE_KEY }}" > "${TMP_DEPLOY_PRIV_KEY}"
+          chmod 600 "${TMP_DEPLOY_PRIV_KEY}"
           eval $(ssh-agent -s)
-          ssh-add ${TMP_DEPLOY_PRIV_KEY}
+          ssh-add "${TMP_DEPLOY_PRIV_KEY}"
 
           git config http.sslVerify true
           git config --local user.email "${AUTHOR_EMAIL}"
@@ -221,16 +225,16 @@ jobs:
     needs: process-release-information
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Download ytt data values file with release information
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8
         with:
           name: ytt-data-values-for-release
           path: ./tmp/release.yml
       - name: Install ytt
-        uses: carvel-dev/setup-action@v1
+        uses: carvel-dev/setup-action@v2
         with:
           only: ytt
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -240,7 +244,7 @@ jobs:
           ./scripts/generate_releases_yaml.sh ./tmp/release.yml > ./tmp/releases.yaml
           mv ./tmp/releases.yaml ./releases.yaml
       - name: Upload releases.yaml File
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7
         with:
           name: releases-yaml
           path: releases.yaml
