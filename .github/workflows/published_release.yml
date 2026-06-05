@@ -206,10 +206,12 @@ jobs:
           tempkey=`basename $0`
           TMP_DEPLOY_PRIV_KEY=`mktemp /tmp/${tempkey}.XXXXXX` || exit 1
           trap "rm -f ${TMP_DEPLOY_PRIV_KEY}" EXIT
+          set +x
           echo "${{ secrets.INSTALL_SH_DEPLOY_PRIVATE_KEY }}" > "${TMP_DEPLOY_PRIV_KEY}"
           chmod 600 "${TMP_DEPLOY_PRIV_KEY}"
           eval $(ssh-agent -s)
           ssh-add "${TMP_DEPLOY_PRIV_KEY}"
+          set -x
 
           git config http.sslVerify true
           git config --local user.email "${AUTHOR_EMAIL}"
