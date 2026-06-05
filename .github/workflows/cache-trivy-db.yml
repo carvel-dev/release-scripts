@@ -1,0 +1,22 @@
+name: Mirror Trivy DB
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # daily
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Install crane
+        uses: imjasonh/setup-crane@v0.4
+
+      - name: Log in to GHCR
+        run: crane auth login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Mirror Trivy DB
+        run: |
+            crane copy ghcr.io/aquasecurity/trivy-db:2 ghcr.io/carvel-dev/release-scripts/trivy-db:2

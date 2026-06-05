@@ -64,11 +64,6 @@ jobs:
           # Build Binary File
           ./hack/build.sh
 
-      - name: Trivy Cache
-        uses: yogeshlonkar/trivy-cache-action@v0
-        with:
-          gh-token: ${{ secrets.githubToken }}
-
       - name: Read dismissed CVEs from Github
         run: |
           set -o pipefail
@@ -92,7 +87,7 @@ jobs:
           output: 'trivy-results.sarif'
           exit-code: 1
           ignore-unfixed: true
-          cache-dir: .trivy
+          db-repository: ghcr.io/carvel-dev/release-scripts/trivy-db:2
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()
