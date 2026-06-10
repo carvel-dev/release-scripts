@@ -198,7 +198,7 @@ jobs:
           set -e -x
           pushd website/site
           docVersion=$(echo "${TAG_NAME}" | awk -F. '{print $1"."$2".x"}')
-          ./hack/release-doc.sh "${TOOL_NAME}" "${docVersion}"
+          ./hack/release-docs.sh "${TOOL_NAME}" "${docVersion}"
           timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
           AUTHOR_EMAIL='carvel-bot@users.noreply.github.com'
