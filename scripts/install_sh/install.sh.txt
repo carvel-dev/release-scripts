@@ -37,15 +37,30 @@ install() {
     dl_bin="curl -s -L"
   fi
 
-  if [[ `uname` == Darwin ]]; then
-    binary_type=darwin-amd64
-    (@ for val in data.values.products: @)(@ for asset in val.assets: @)(@ if asset.os == "darwin" and asset.arch=="amd64": @)
-    (@=val.product @)_checksum=(@=asset.shasum @)(@ end @)(@ end @)(@ end @)
-  else
-    binary_type=linux-amd64
-    (@ for val in data.values.products: @)(@ for asset in val.assets: @)(@ if asset.os == "linux" and asset.arch=="amd64": @)
-    (@=val.product @)_checksum=(@=asset.shasum @)(@ end @)(@ end @)(@ end @)
-  fi
+  os="$(uname -s)"
+  case "$os" in
+    Darwin) os=darwin ;;
+    Linux) os=linux ;;
+    *) echo "Error: unsupported operating system: $os" >&2; exit 1 ;;
+  esac
+
+  arch="$(uname -m)"
+  case "$arch" in
+    x86_64|amd64) arch=amd64 ;;
+    aarch64|arm64) arch=arm64 ;;
+    *) echo "Error: unsupported architecture: $arch" >&2; exit 1 ;;
+  esac
+
+  binary_type="${os}-${arch}"
+
+  case "$binary_type" in
+  (@ for os in ["darwin", "linux"]: @)(@ for arch in ["amd64", "arm64"]: @)
+    (@= os @)-(@= arch @))
+    (@ for val in data.values.products: @)(@ for asset in val.assets: @)(@ if asset.os == os and asset.arch == arch: @)
+      (@= val.product @)_checksum=(@= asset.shasum @)(@ end @)(@ end @)(@ end @)
+      ;;
+  (@ end @)(@ end @)
+  esac
 
   echo "Installing ${binary_type} binaries..."
 
